@@ -12,7 +12,7 @@ const PouchDB = require('./packages/node_modules/pouchdb')
 const DB_NAME = 'pouch-adapter-test'
 
 const db = new PouchDB(DB_NAME)
-// const db = new PouchDB(DB_NAME, {adapter: 'leveldb', index_adapter: 'cordova-sqlite'})
+// const db = new PouchDB(DB_NAME, {adapter: 'idb', view_adapter: 'cordova-sqlite'})
 console.log('*** adapter', db.adapter)
 
 Promise.resolve().then(async () => {
@@ -36,6 +36,12 @@ Promise.resolve().then(async () => {
     }
   }
   await db.put(ddoc)
+
+  const queryResponse = await db.query('index', {
+    key: 'abc',
+    include_docs: true
+  });
+  console.log('*** *** queryResponse', queryResponse)
 }).catch((err) => {
   console.log(err)
 }).then(() => {
