@@ -7,12 +7,15 @@ in separate adapters
 // const PouchDB = require('pouchdb')
 
 const PouchDB = require('./packages/node_modules/pouchdb')
+// PouchDB.plugin(require('pouchdb-adapter-node-websql'));
 // PouchDB.plugin(require('pouchdb-adapter-cordova-sqlite'))
 
 const DB_NAME = 'pouch-adapter-test'
 
 const db = new PouchDB(DB_NAME)
+// const db = new PouchDB(DB_NAME, {adapter: 'leveldb', view_adapter: 'websql'})
 // const db = new PouchDB(DB_NAME, {adapter: 'idb', view_adapter: 'cordova-sqlite'})
+
 console.log('*** adapter', db.adapter)
 
 Promise.resolve().then(async () => {
