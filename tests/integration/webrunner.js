@@ -4,7 +4,7 @@
   // use query parameter pluginFile if present,
   // eg: test.html?pluginFile=memory.pouchdb.js
   var plugins = window.location.search.match(/[?&]plugins=([^&]+)/);
-  var adapters = window.location.search.match(/[?&]adapters=([^&]+)/);
+  // var adapters = window.location.search.match(/[?&]adapters=([^&]+)/);
   var pouchdbSrc = window.location.search.match(/[?&]src=([^&]+)/);
   if (pouchdbSrc) {
     pouchdbSrc = decodeURIComponent(pouchdbSrc[1]);
@@ -12,6 +12,8 @@
     pouchdbSrc = '../../packages/node_modules/pouchdb/dist/pouchdb.js';
   }
   var scriptsToLoad = [pouchdbSrc];
+  // TODO: fix
+  var adapters = ['', 'memory,localstorage'];
   if (adapters) {
     adapters = adapters[1].split(',');
     adapters.forEach(function (adapter) {
