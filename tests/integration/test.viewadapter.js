@@ -14,10 +14,9 @@ adapters.forEach(function (adapter) {
     //   testUtils.cleanup([dbs.name], done);
     // });
 
-    it('Create a pouch with separate view adapters', async function () {
+    it('Create pouch with separate view adapters', async function () {
       /* jshint newcap:false */
       var db = new PouchDB('mydb', {adapter: 'idb', view_adapter: 'memory'});
-      console.log('*** *** db', db);
       db.should.be.an.instanceof(PouchDB);
       await db.bulkDocs([
         {title : 'abc', value: 1, _id: 'doc1'},
@@ -39,29 +38,27 @@ adapters.forEach(function (adapter) {
       }
       await db.put(ddoc)
     
-      const queryResponse = await db.query('index', {
+      await db.query('index', {
         key: 'abc',
         include_docs: true
       });
-      console.log('*** *** queryResponse', queryResponse)
 
-      for (const key in localStorage) {
-        console.log(`${key}: ${localStorage.getItem(key)}`);
-      }
+      // This is the name of the db where view index data is stored.
+      var viewDbName = Object.keys(localStorage)[0]
 
-      // var request = indexedDB.open("_pouch_mydb", 1);
-      // TODO: get the db name from the code rather than hard coding it
-      var request = indexedDB.open("_pouch_mydb-mrview-7739afc9b2763c606dec8521f7534fa7", 1);
+      var request = indexedDB.open(`_pouch_${viewDbName}`, 1);
+
       request.onupgradeneeded = function(event) {
-        console.log('idb event', event)
-        // this means that a new mrview database was created in IndexDB.
-        // TODO: add better explanation
+
+        // The version of the view database created is 1 which shows that this
+        // database was newly created in IndexedDB and did not exist there
+        // before. So the view database was created in the database specified in
+        // the view_adapter and not in the default `idb`adapter. 
+
         event.oldVersion.should.equal(0)
         event.newVersion.should.equal(1)
       };
 
-      // TODO: add a second test without the view adapter and show that both data and view index is saved in the same db
-      // TODO: (optional) add tests for other view adapters
     });
   });
 });
