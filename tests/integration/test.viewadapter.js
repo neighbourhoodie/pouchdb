@@ -4,46 +4,46 @@ var adapters = ['local'];
 
 adapters.forEach(function (adapter) {
   describe('test.viewadapter.js-' + adapter, function () {
+    var db = {};
+    // TODO: need to add cleanup function and remove db.destroy from tests
+    // afterEach(function (done) {
+    //   db.destroy()
+    // });
 
-    async function addAndQueryData(db) {
-      try {
-        await db.bulkDocs([
-          {title : 'abc', value: 1, _id: 'doc1'},
-          {title : 'ghi', value: 3, _id: 'doc3'},
-          {title : 'def', value: 2, _id: 'doc2'}
-        ]);
-      
-        const ddoc = {
-          _id: '_design/index',
-          views: {
-            index: {
-              map: function mapFun(doc) {
-                if (doc.title) {
-                  emit(doc.title);
-                }
-              }.toString()
+    var docs = [
+      {title : 'abc', value: 1, _id: 'doc1'},
+      {title : 'ghi', value: 3, _id: 'doc3'},
+      {title : 'def', value: 2, _id: 'doc2'}
+    ]
+
+    var ddoc = {
+      _id: '_design/index',
+      views: {
+        index: {
+          map: function mapFun(doc) {
+            if (doc.title) {
+              emit(doc.title);
             }
-          }
+          }.toString()
         }
-        await db.put(ddoc)
-      
-        await db.query('index', {
-          key: 'abc',
-          include_docs: true
-        });
-      } catch(error) {
-        console.log(error)
       }
     }
+
 
     it('Create pouch with separate view adapters', async function () {
       /* jshint newcap:false */
       var db = new PouchDB('mydb', {adapter: 'idb', view_adapter: 'memory'});
-      db.should.be.an.instanceof(PouchDB);
-      addAndQueryData(db)
+      await db.bulkDocs(docs);
+      await db.put(ddoc);
+    
+      await db.query('index', {
+        key: 'abc',
+        include_docs: true
+      });
 
       // This is the name of the db where view index data is stored.
-      var viewDbName = Object.keys(localStorage)[0]
+      var localStorageKeys = Object.keys(localStorage)
+      var viewDbName = localStorageKeys[localStorageKeys.length - 1]
 
       var request = indexedDB.open(`_pouch_${viewDbName}`, 1);
 
@@ -57,26 +57,36 @@ adapters.forEach(function (adapter) {
         event.oldVersion.should.equal(0)
         event.newVersion.should.equal(1)
       };
-
+      await db.destroy()
     });
 
     it('Create pouch with no view adapters', async function () {
       /* jshint newcap:false */
       var db = new PouchDB('mydb', {adapter: 'idb'});
       db.should.be.an.instanceof(PouchDB);
-      addAndQueryData(db)
+      await db.bulkDocs(docs);
+      await db.put(ddoc);
+    
+      await db.query('index', {
+        key: 'abc',
+        include_docs: true
+      });
 
       // This is the name of the db where view index data is stored.
-      var viewDbName = Object.keys(localStorage)[2]
+      var localStorageKeys = Object.keys(localStorage)
+      var viewDbName = localStorageKeys[localStorageKeys.length - 1]
 
-      var request = indexedDB.open(viewDbName, 1)
+      var request = indexedDB.open(`_pouch_${viewDbName}`, 1)
 
-      // When view_adapter is not specified, the view index database is stored in the
-      // main IndexedDB along with the core data. So trying to create view index
-      // database with an existing version number (1) will throw an error.
-      request.onerror = function(event) {
-        should.exist(event)
+      request.onupgradeneeded = function(event) {
+        // TODO: add comment explaining the process
+        event.oldVersion.should.not.equal(0)
+        event.oldVersion.should.equal(1)
+        event.newVersion.should.not.equal(1)
+        event.newVersion.should.equal(2)
       };
+
+      await db.destroy()
     });
   });
 });
