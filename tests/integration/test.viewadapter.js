@@ -24,6 +24,22 @@ adapters.forEach(function (adapter) {
       }
     };
 
+    function getDBNames(localStorage) {
+      var savedDbNames = Object.keys(localStorage).filter(function (key) {
+        return key.includes(dbs.name);
+      });
+
+      // This is the name of the db where view index data is stored.
+      var viewDbName = savedDbNames.find(function (dbName) {
+        return dbName.includes('-mrview-');
+      });
+      // This is the name of the db where documents are stored.
+      var docDbName = savedDbNames.find(function (dbName) {
+        return !dbName.includes('-mrview-');
+      });
+      return { viewDbName, docDbName };
+    }
+
     beforeEach(function () {
       dbs.name = testUtils.adapterUrl(adapter, 'testdb');
     });
@@ -34,7 +50,6 @@ adapters.forEach(function (adapter) {
 
     it('Create pouch with separate view adapters', function (done) {
       var db = new PouchDB(dbs.name, {adapter: 'idb', view_adapter: 'memory'});
-      db.should.be.an.instanceof(PouchDB);
 
       db.bulkDocs(docs).then(function () {
         db.put(ddoc).then(function () {
@@ -42,19 +57,8 @@ adapters.forEach(function (adapter) {
             key: 'abc',
             include_docs: true
           }).then(function () {
-            var savedDbNames = Object.keys(localStorage).filter(function (key) {
-              return key.includes(dbs.name);
-            });
 
-            // This is the name of the db where view index data is stored.
-            var viewDbName = savedDbNames.find(function (dbName) {
-              return dbName.includes('-mrview-');
-            });
-
-            // This is the name of the db where documents are stored.
-            var docDbName = savedDbNames.find(function (dbName) {
-              return !dbName.includes('-mrview-');
-            });
+            var { viewDbName, docDbName } = getDBNames(localStorage);
 
             // check indexedDB for saved views
             // need to add '_pouch_' because views are saved in memory
@@ -88,7 +92,6 @@ adapters.forEach(function (adapter) {
 
     it('Create pouch with no view adapters', function (done) {
       var db = new PouchDB(dbs.name, {adapter: 'idb'});
-      db.should.be.an.instanceof(PouchDB);
 
       db.bulkDocs(docs).then(function () {
         db.put(ddoc).then(function () {
@@ -97,18 +100,7 @@ adapters.forEach(function (adapter) {
             include_docs: true
           }).then(function () {
 
-            var savedDbNames = Object.keys(localStorage).filter(function (key) {
-              return key.includes(dbs.name);
-            });
-
-            // This is the name of the db where view index data is stored.
-            var viewDbName = savedDbNames.find(function (dbName) {
-              return dbName.includes('-mrview-');
-            });
-            // This is the name of the db where documents are stored.
-            var docDbName = savedDbNames.find(function (dbName) {
-              return !dbName.includes('-mrview-');
-            });
+            var { viewDbName, docDbName } = getDBNames(localStorage);
 
             // check indexedDB for saved views
             var viewRequest = indexedDB.open(viewDbName, 5);
