@@ -32,7 +32,7 @@ describe('constructor errors', function () {
     } catch (err) {
       should.equal(err instanceof Error, true, 'should be an error');
       err.message.should
-        .equal('Invalid Adapter: myFakeViewAdapter',
+        .equal('Invalid View Adapter: myFakeViewAdapter',
                'should give the correct error message');
       done();
     }
