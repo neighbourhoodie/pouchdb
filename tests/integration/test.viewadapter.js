@@ -1,3 +1,5 @@
+/* To test these adapters, you can run
+ADAPTERS=memory CLIENT=selenium:firefox npm run test */
 'use strict';
 
 var adapters = ['local'];
@@ -106,6 +108,8 @@ adapters.forEach(function (adapter) {
             var viewRequest = indexedDB.open(viewDbName, 5);
             viewRequest.onsuccess = function () {
               // Something is saved here
+              // This shows that without a view_adapter specified 
+              // the view query data is stored in the default adapter database.
               viewRequest.result.objectStoreNames.length.should.equal(7);
             };
 
