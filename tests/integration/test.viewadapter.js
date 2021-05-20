@@ -51,6 +51,7 @@ adapters.forEach(function (adapter) {
     });
 
     it('Create pouch with separate view adapters', function (done) {
+      try { !!indexedDB; } catch (_) { return done(); } // require existence of indexedDB
       var db = new PouchDB(dbs.name, {adapter: 'idb', view_adapter: 'memory'});
 
       db.bulkDocs(docs).then(function () {
@@ -93,6 +94,7 @@ adapters.forEach(function (adapter) {
     });
 
     it('Create pouch with no view adapters', function (done) {
+      try { !!indexedDB; } catch (_) { return done(); } // require existence of indexedDB
       var db = new PouchDB(dbs.name, {adapter: 'idb'});
 
       db.bulkDocs(docs).then(function () {
@@ -108,7 +110,7 @@ adapters.forEach(function (adapter) {
             var viewRequest = indexedDB.open(viewDbName, 5);
             viewRequest.onsuccess = function () {
               // Something is saved here
-              // This shows that without a view_adapter specified 
+              // This shows that without a view_adapter specified
               // the view query data is stored in the default adapter database.
               viewRequest.result.objectStoreNames.length.should.equal(7);
             };
