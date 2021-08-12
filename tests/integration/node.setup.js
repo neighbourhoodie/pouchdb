@@ -25,3 +25,17 @@ chai.use(require('chai-as-promised'));
 global.should = chai.should();
 global.assert = chai.assert;
 require('mkdirp').sync('./tmp');
+
+if (process.env.PLUGINS && !process.env.COVERAGE) {
+  // in coverage, these plugins are explicitly included
+  // in pouchdb-for-coverage
+  process.env.PLUGINS.split(',').forEach(function (plugin) {
+    PouchDB.plugin(require('../../packages/node_modules/' + plugin));
+  });
+}
+
+if (process.env.ADAPTERS) {
+  process.env.ADAPTERS.split(',').forEach(function (adapter) {
+    PouchDB.plugin(require('../../packages/node_modules/pouchdb-adapter-' + adapter));
+  });
+}
