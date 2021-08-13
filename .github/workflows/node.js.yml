@@ -49,7 +49,14 @@ jobs:
     - run: npm run eslint
 
     # browser tests
+    # first one does not get an if: always() because we want to stop if eslint fails
     - run: CLIENT=selenium:firefox ADAPTER=idb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test
+    - run: CLIENT=selenium:firefox ADAPTER=indexeddb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test
+      if: always()
+    - run: TYPE=mapreduce CLIENT=selenium:firefox ADAPTER=indexeddb npm test
+      if: always()
+    - run: CLIENT=selenium:firefox npm run test-webpack
+      if: always()
 
 
     # node tests
