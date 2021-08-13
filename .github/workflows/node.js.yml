@@ -66,6 +66,6 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - run: npm i
+    - run: sudo npm i
     - run: npm run eslint
     - run: ${{ matrix.command }}
