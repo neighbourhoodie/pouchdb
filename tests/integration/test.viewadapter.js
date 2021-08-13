@@ -62,7 +62,6 @@ adapters.forEach(function ([primaryAdapter, secondaryAdapter]) {
 
     afterEach(function (done) {
       testUtils.cleanup([dbs.name], done);
-      done();
     });
 
     it('Create pouch with separate view adapters', function (done) {

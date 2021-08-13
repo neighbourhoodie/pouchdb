@@ -1,5 +1,5 @@
 "use strict";
-
+console.log('node-setup being required');
 // throw an error if any EventEmitter adds too many listeners
 require('throw-max-listeners-error');
 
@@ -34,8 +34,13 @@ if (process.env.PLUGINS && !process.env.COVERAGE) {
   });
 }
 
+console.log('running node setup with env', process.env);
 if (process.env.ADAPTERS) {
+  console.log('has adapters', process.env.ADAPTERS);
   process.env.ADAPTERS.split(',').forEach(function (adapter) {
+    console.log('loading adapter', adapter);
     PouchDB.plugin(require('../../packages/node_modules/pouchdb-adapter-' + adapter));
+    console.log('loading adapter', adapter, 'done');
+
   });
 }

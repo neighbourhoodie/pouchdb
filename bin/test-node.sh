@@ -33,6 +33,7 @@ fi
 if [ $PERF ]; then
     node tests/performance/index.js
 elif [ ! $COVERAGE ]; then
+    echo "calling mocha"
     ./node_modules/.bin/mocha \
         $BAIL_OPT \
         --timeout "$TIMEOUT" \
