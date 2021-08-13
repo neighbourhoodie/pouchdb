@@ -14,7 +14,6 @@ jobs:
 
     runs-on: ubuntu-latest
     container:
-      image: node:14.4
       options: --network-alias testHost
 
     env:
