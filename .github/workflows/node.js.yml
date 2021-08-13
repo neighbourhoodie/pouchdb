@@ -9,10 +9,26 @@ on:
   pull_request:
     branches: [ master ]
 
+services:
+  hub:
+    image: selenium/hub:3.141.59-gold
+  firefox:
+    image: selenium/node-firefox:3.141.59-gold
+    env:
+      HUB_HOST: hub
+      HUB_PORT: 4444
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
+    container:
+      image: node:14.4
+      options: --network-alias testHost
+
+    env:
+      SELENIUM_HUB_HOST: hub
+      TEST_HOST: testHost
 
     strategy:
       matrix:
@@ -29,11 +45,16 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node-version }}
-    - run: ls -la
-    - run: find .
     - run: npm install
     - run: npm run eslint
+
+    # browser tests
+    - run: CLIENT=selenium:firefox ADAPTER=idb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test
+
+
+    # node tests
     - run: AUTO_COMPACTION=true npm test
+      if: always()
     - run: TYPE=mapreduce npm test
       if: always()
     - run: COUCH_HOST=http://127.0.0.1:5984 TYPE=find PLUGINS=pouchdb-find CLIENT=node SERVER=couchdb-master npm test
