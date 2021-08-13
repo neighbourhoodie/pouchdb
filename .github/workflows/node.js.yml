@@ -9,15 +9,6 @@ on:
   pull_request:
     branches: [ master ]
 
-services:
-  hub:
-    image: selenium/hub:3.141.59-gold
-  firefox:
-    image: selenium/node-firefox:3.141.59-gold
-    env:
-      HUB_HOST: hub
-      HUB_PORT: 4444
-
 jobs:
   build:
 
@@ -29,6 +20,15 @@ jobs:
     env:
       SELENIUM_HUB_HOST: hub
       TEST_HOST: testHost
+
+    services:
+      hub:
+        image: selenium/hub:3.141.59-gold
+      firefox:
+        image: selenium/node-firefox:3.141.59-gold
+        env:
+          HUB_HOST: hub
+          HUB_PORT: 4444
 
     strategy:
       matrix:
