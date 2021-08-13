@@ -13,13 +13,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    container:
-      image: node:${{ matrix.node }}
-      options: --network-alias testHost
 
     env:
       SELENIUM_HUB_HOST: hub
-      TEST_HOST: testHost
+      TEST_HOST: localhost
 
     services:
       hub:
@@ -66,6 +63,6 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
-    - run: sudo npm i
+    - run: npm i
     - run: npm run eslint
     - run: ${{ matrix.command }}
