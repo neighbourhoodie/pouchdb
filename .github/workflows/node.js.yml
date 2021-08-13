@@ -33,18 +33,18 @@ jobs:
         node: [12, 14, 16]
         couchdb: ['2.3', '3.1']
         command: [
-          # 'CLIENT=selenium:firefox ADAPTER=idb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
-          # 'CLIENT=selenium:firefox ADAPTER=indexeddb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
-          # 'TYPE=mapreduce CLIENT=selenium:firefox ADAPTER=indexeddb npm test',
-          # 'CLIENT=selenium:firefox npm run test-webpack',
-          # 'AUTO_COMPACTION=true npm test',
-          # 'TYPE=mapreduce npm test',
-          # 'COUCH_HOST=http://127.0.0.1:5984 TYPE=find PLUGINS=pouchdb-find CLIENT=node SERVER=couchdb-master npm test',
-          # 'PERF=1 npm test',
-          # 'npm run test-unit',
-          # 'npm run test-component',
-          # 'npm run test-fuzzy',
-          # 'SERVER=pouchdb-server POUCHDB_SERVER_FLAGS=--in-memory PLUGINS=pouchdb-find COVERAGE=1 npm run report-coverage',
+          'CLIENT=selenium:firefox ADAPTER=idb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
+          'CLIENT=selenium:firefox ADAPTER=indexeddb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
+          'TYPE=mapreduce CLIENT=selenium:firefox ADAPTER=indexeddb npm test',
+          'CLIENT=selenium:firefox npm run test-webpack',
+          'AUTO_COMPACTION=true npm test',
+          'TYPE=mapreduce npm test',
+          'COUCH_HOST=http://127.0.0.1:5984 TYPE=find PLUGINS=pouchdb-find CLIENT=node SERVER=couchdb-master npm test',
+          'PERF=1 npm test',
+          'npm run test-unit',
+          'npm run test-component',
+          'npm run test-fuzzy',
+          'SERVER=pouchdb-server POUCHDB_SERVER_FLAGS=--in-memory PLUGINS=pouchdb-find COVERAGE=1 npm run report-coverage',
           'npm run verify-build'
         ]
 
