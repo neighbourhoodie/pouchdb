@@ -53,10 +53,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up CouchDB
-      uses: "cobot/couchdb-action@master"
+    - uses: iamssen/couchdb-github-action@master
       with:
-        couchdb version: ${{ matrix.couchdb }}
+        couchdb-version: ${{ matrix.couchdb }}
     - name: Use Node.js ${{ matrix.node }}
       uses: actions/setup-node@v2
       with:
