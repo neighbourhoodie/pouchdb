@@ -20,8 +20,10 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: cobot/couchdb-action@master
-    - uses: actions/checkout@v2
+    - name: Set up CouchDB
+      uses: "cobot/couchdb-action@master"
+      with:
+        couchdb version: '3.1.1'
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
