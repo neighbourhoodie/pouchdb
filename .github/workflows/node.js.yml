@@ -35,11 +35,19 @@ jobs:
     - run: npm run eslint
     - run: AUTO_COMPACTION=true npm test
     - run: TYPE=mapreduce npm test
+      if: always()
     - run: COUCH_HOST=http://127.0.0.1:5984 TYPE=find PLUGINS=pouchdb-find CLIENT=node SERVER=couchdb-master npm test
+      if: always()
     - run: PERF=1 npm test
+      if: always()
     - run: npm run test-unit
+      if: always()
     - run: npm run test-component
+      if: always()
     - run: npm run test-fuzzy
+      if: always()
     - run: SERVER=pouchdb-server POUCHDB_SERVER_FLAGS=--in-memory PLUGINS=pouchdb-find COVERAGE=1 npm run report-coverage
+      if: always()
     - run: npm run verify-build
+      if: always()
     
