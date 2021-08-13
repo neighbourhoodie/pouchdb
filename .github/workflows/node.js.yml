@@ -38,11 +38,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up CouchDB
-      uses: "neighbourhoodie/couchdb-action@feat/3.x"
+      uses: "cobot/couchdb-action@master"
       with:
-        couchdb version: '3.1.1'
-        couchdb admin user: 'admin'
-        couchdb admin pass: 'admin'
+        couchdb version: '2.3.1'
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
