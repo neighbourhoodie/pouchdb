@@ -29,6 +29,7 @@ jobs:
 
     strategy:
       matrix:
+        fail-fast: false
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         node: [12, 14, 16]
         couchdb: ['2.3', '3.1']
@@ -66,4 +67,4 @@ jobs:
     - run: npm i
     - run: npm run eslint
     - run: ${{ matrix.command }}
-      if: always()
+
