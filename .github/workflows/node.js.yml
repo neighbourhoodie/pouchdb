@@ -31,7 +31,8 @@ jobs:
       fail-fast: false
       matrix:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        node: [12, 14, 16]
+        # node: [12, 14, 16]
+        node: [12]
         couchdb: ['2.3', '3.1']
         command: [
           'CLIENT=selenium:firefox ADAPTER=idb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
