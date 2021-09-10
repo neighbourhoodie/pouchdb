@@ -66,3 +66,4 @@ jobs:
     - run: npm i
     - run: npm run eslint
     - run: ${{ matrix.command }}
+      if: always()
