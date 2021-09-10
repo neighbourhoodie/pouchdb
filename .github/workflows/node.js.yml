@@ -28,8 +28,8 @@ jobs:
           HUB_PORT: 4444
 
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         node: [12, 14, 16]
         couchdb: ['2.3', '3.1']
