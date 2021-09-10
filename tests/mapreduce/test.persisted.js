@@ -4,7 +4,7 @@ describe('test.persisted.js', function () {
   var dbType = testUtils.adapterType();
   var dbName = testUtils.adapterUrl(dbType, 'testdb');
 
-  var Promise = testUtils.Promise;
+  var Promise;
 
   function setTimeoutPromise(time) {
     return new Promise(function (resolve) {
@@ -35,6 +35,10 @@ describe('test.persisted.js', function () {
     });
   }
 
+  beforeEach(function () {
+    Promise = testUtils.Promise;
+    return new PouchDB(dbName).destroy();
+  });
   afterEach(function () {
     return new PouchDB(dbName).destroy();
   });
@@ -239,13 +243,9 @@ describe('test.persisted.js', function () {
         }
       }
     };
-    if (dbType === 'http') {
-      return db.post(doc).should.be.rejected;
-    } else {
-      return db.post(doc).then(function () {
-        return db.query('barbar/scores', {key: 'bar'}).should.be.rejected;
-      });
-    }
+    return db.post(doc).then(function () {
+      return db.query('barbar/scores', {key: 'bar'}).should.be.rejected;
+    });
   });
 
   it('many simultaneous persisted views', function () {
@@ -320,7 +320,7 @@ describe('test.persisted.js', function () {
       }).then(function (res) {
         res.total_rows.should.be.within(0, 2);
         res.rows.length.should.be.within(0, 2);
-        return setTimeoutPromise(50);
+        return setTimeoutPromise(5);
       }).then(function () {
         return db.query(queryFun, {stale : 'ok'});
       }).then(function (res) {
