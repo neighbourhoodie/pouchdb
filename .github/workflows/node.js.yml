@@ -37,6 +37,8 @@ jobs:
         command: [
           'CLIENT=selenium:firefox ADAPTER=idb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
           'CLIENT=selenium:firefox ADAPTER=indexeddb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
+          'CLIENT=selenium:chrome ADAPTER=idb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
+          'CLIENT=selenium:chrome ADAPTER=indexeddb POUCHDB_SRC="../../packages/node_modules/pouchdb/dist/pouchdb.min.js" npm test',
           # 'TYPE=mapreduce CLIENT=selenium:firefox ADAPTER=indexeddb npm test',
           # 'CLIENT=selenium:firefox npm run test-webpack',
           'AUTO_COMPACTION=true npm test',
