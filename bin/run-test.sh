@@ -92,6 +92,18 @@ if [[ ! -z $SERVER ]]; then
   fi
 fi
 
+# if our COUCH_HOST has credentials in it, we need to enable CORS:
+set -x
+# 3.x support only for now
+HAS_AT=`echo $COUCH_HOST | grep @`
+if [ -n $HAS_AT ]; then
+    curl $COUCH_HOST/_node/_local/_config/cors/credentials -X PUT -d '"true"'
+    curl $COUCH_HOST/_node/_local/_config/cors/headers -X PUT -d '"accept, authorization, content-type, origin, referer"'
+    curl $COUCH_HOST/_node/_local/_config/cors/methods -X PUT -d '"GET, PUT, POST, HEAD, DELETE"'
+    curl $COUCH_HOST/_node/_local/_config/cors/origins -X PUT -d '"http://127.0.0.1:8000"'
+fi
+set +x
+
 if [ ! -z $TRAVIS ]; then
   source ./bin/run-couchdb-on-travis.sh
 fi
