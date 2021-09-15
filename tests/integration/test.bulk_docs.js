@@ -405,11 +405,12 @@ adapters.forEach(function (adapter) {
               }
             ]
           }, {new_edits: false});
-        }).then(function (res) {
+        }).catch(function (res) {
           res.should.have.length(1);
           should.exist(res[0].error);
           res[0].id.should.equal('doc1');
-        }).then(done);
+          done()
+        });
       });
     });
 
