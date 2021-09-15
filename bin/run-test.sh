@@ -97,6 +97,7 @@ set -x
 # 3.x support only for now
 HAS_AT=`echo $COUCH_HOST | grep @`
 if [ -n $HAS_AT ]; then
+    curl $COUCH_HOST/_node/_local/_config/httpd/enable_cors -X PUT -d '"true"'
     curl $COUCH_HOST/_node/_local/_config/cors/credentials -X PUT -d '"true"'
     curl $COUCH_HOST/_node/_local/_config/cors/headers -X PUT -d '"accept, authorization, content-type, origin, referer"'
     curl $COUCH_HOST/_node/_local/_config/cors/methods -X PUT -d '"GET, PUT, POST, HEAD, DELETE"'
