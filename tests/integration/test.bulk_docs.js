@@ -359,7 +359,6 @@ adapters.forEach(function (adapter) {
     });
 
     it('#2935 new_edits=false with single unauthorized', function (done) {
-
       testUtils.isCouchDB(function (isCouchDB) {
         if (adapter !== 'http' || !isCouchDB) {
           return done();
@@ -373,12 +372,8 @@ adapters.forEach(function (adapter) {
             }
           }.toString()
         };
-
-        console.log(dbs.name)
         var db = new PouchDB(dbs.name);
-        console.log(db)
         db.put(ddoc).then(function () {
-          console.log("after put")
           return db.bulkDocs({
             docs: [
               {
@@ -408,18 +403,10 @@ adapters.forEach(function (adapter) {
             ]
           }, {new_edits: false});
         }).then(function (res) {
-          console.log("THEN", res)
           res.should.have.length(1);
           should.exist(res[0].error);
           res[0].id.should.equal('doc1');
-          done()
-        }).catch(function (res) {
-          console.log("CATCH", res)
-          res.should.have.length(1);
-          should.exist(res[0].error);
-          res[0].id.should.equal('doc1');
-          done()
-        });
+        }).then(done);
       });
     });
 
