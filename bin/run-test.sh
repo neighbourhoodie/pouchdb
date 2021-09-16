@@ -101,6 +101,8 @@ if [ -n $HAS_AT ]; then
     curl -s $COUCH_HOST/_node/_local/_config/cors/headers -X PUT -d '"accept, authorization, content-type, origin, referer"'
     curl -s $COUCH_HOST/_node/_local/_config/cors/methods -X PUT -d '"GET, PUT, POST, HEAD, DELETE"'
     curl -s $COUCH_HOST/_node/_local/_config/cors/origins -X PUT -d '"http://127.0.0.1:8000"'
+    curl -s $COUCH_HOST/_node/_local/_config/admins/admin -X PUT -d '""'
+    COUCH_HOST="http://127.0.0.1:5984"
 fi
 
 if [ ! -z $TRAVIS ]; then
