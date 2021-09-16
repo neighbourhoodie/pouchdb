@@ -274,9 +274,9 @@ function startTest() {
 
                     clearInterval(interval);
 
-                    // closeClient(function () {
-                    //   process.exit(!process.env.PERF && runner.failed ? 1 : 0);
-                    // });
+                    closeClient(function () {
+                      process.exit(!process.env.PERF && runner.failed ? 1 : 0);
+                    });
                   }
                 }
             });
