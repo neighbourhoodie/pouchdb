@@ -359,7 +359,6 @@ adapters.forEach(function (adapter) {
     });
 
     it('#2935 new_edits=false with single unauthorized', function (done) {
-
       testUtils.isCouchDB(function (isCouchDB) {
         if (adapter !== 'http' || !isCouchDB) {
           return done();
@@ -373,9 +372,7 @@ adapters.forEach(function (adapter) {
             }
           }.toString()
         };
-
         var db = new PouchDB(dbs.name);
-
         db.put(ddoc).then(function () {
           return db.bulkDocs({
             docs: [

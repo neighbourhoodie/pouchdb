@@ -12,7 +12,7 @@ var MochaSpecReporter = require('mocha').reporters.Spec;
 
 var devserver = require('./dev-server.js');
 
-var testTimeout = 30 * 60 * 1000;
+var testTimeout = 30 * 1* 1000;
 
 var username = process.env.SAUCE_USERNAME;
 var accessKey = process.env.SAUCE_ACCESS_KEY;
