@@ -96,7 +96,7 @@
     "mocha": "3.5.0",
     "mockery": "2.1.0",
     "ncp": "2.0.0",
-    "pouchdb-express-router": "0.0.11",
+    "pouchdb-express-router": "github:neighbourhoodie/pouchdb-express-router#feat/bump-express-4.17.1",
     "query-string": "6.10.1",
     "replace": "1.1.3",
     "rimraf": "2.7.1",
