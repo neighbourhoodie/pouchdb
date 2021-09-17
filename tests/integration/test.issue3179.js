@@ -200,10 +200,10 @@ adapters.forEach(function (adapters) {
           return local.remove(doc._id, doc._conflicts[0]);
         });
       }).then(function () {
-        console.log(12, '> #3179 conflicts synced, live sync, removed conflicts[0]', doc);
+        console.log(12, '> #3179 conflicts synced, live sync, removed conflicts[0]');
         return waitForConflictsResolved();
       }).then(function () {
-        console.log(13, '> #3179 conflicts synced, live sync, waited for conflict resolved', doc);
+        console.log(13, '> #3179 conflicts synced, live sync, waited for conflict resolved');
         return local.get('1', {conflicts: true, revs: true});
       }).then(function (localDoc) {
         console.log(14, '> #3179 conflicts synced, live sync, get local doc 1 with conflicts and revs', localDoc);
@@ -215,10 +215,10 @@ adapters.forEach(function (adapters) {
           remoteDoc.should.deep.equal(localDoc);
         });
       }).then(function () {
-        console.log(16, ' do cleanup ')
+        console.log(16, ' do cleanup ');
         return cleanup();
       }, function (err) {
-        console.log(100, ' err ', err)
+        console.log(100, ' err ', err);
         return cleanup().then(function () {
           throw err;
         });
