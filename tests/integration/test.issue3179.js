@@ -86,6 +86,7 @@ adapters.forEach(function (adapters) {
         return local.sync(remote);
       }).then(function () {
         return local.get('1', {conflicts: true}).then(function (doc) {
+          console.log('test.issue3179, doc:', doc);
           return local.remove(doc._id, doc._conflicts[0]);
         });
       }).then(function () {
