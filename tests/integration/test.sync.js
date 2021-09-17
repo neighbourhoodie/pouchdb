@@ -851,7 +851,7 @@ adapters.forEach(function (adapters) {
       console.log(8, '> 5997 sync 2 databases, posted');
       var toCancel = [changes1, changes2, sync1, sync2];
       function complete() {
-        console.log(12, '> 5997 sync 2 databases, complete', toCancel);
+        console.log(12, '> 5997 sync 2 databases, complete', toCancel.length);
         if (!toCancel.length) {
           console.log(13, '> 5997 sync 2 databases, complete, nothing left to cancel', toCancel);
           return remote2.destroy().then(function () {
