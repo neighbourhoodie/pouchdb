@@ -195,64 +195,45 @@ describe('migration', function () {
         ];
 
         var oldPouch = new dbs.first.pouch(dbs.first.remote);
-        console.log(1, dbs.first.remote)
         oldPouch.bulkDocs({docs: docs}, {}, function (err) {
-          console.log(2)
           should.not.exist(err, 'got error in bulkDocs: ' +
                            JSON.stringify(err));
           var oldLocalPouch =  new dbs.first.pouch(dbs.first.local,
                                                    dbs.first.localOpts);
           
-          console.log(3)
-          console.log('oldPouch', oldPouch)
-          console.log('oldLocalPouch', oldLocalPouch)
           oldPouch.replicate.to(oldLocalPouch, function (err, result) {
-            console.log(4)
-
             should.not.exist(err, 'got error in replicate: ' +
                              JSON.stringify(err));
             if (err) {
-              console.log(5)
               done();
             }
-            console.log(6)
             should.exist(result.ok, 'replication was ok');
             oldPouch.close(function (err) {
-              console.log(7)
               should.not.exist(err, 'got error in close: ' +
                                JSON.stringify(err));
               if (err) {
-                console.log(8)
                 done();
               }
-              console.log(9)
               should.not.exist(err, 'got error: ' + JSON.stringify(err));
               if (err) {
-                console.log(10)
                 done();
               }
-              console.log(11)
               oldLocalPouch.close(function (err) {
                 should.not.exist(err, 'got error in close: ' +
                                  JSON.stringify(err));
                 if (err) {
-                  console.log(12)
                   done();
                 }
                 var newPouch = new dbs.second.pouch(dbs.second.local);
-                console.log(13)
                 if (err) {
-                  console.log(14)
                   done();
                 }
                 newPouch.allDocs({}, function (err, res) {
-                  console.log(15)
                   should.not.exist(err, 'got error in allDocs: ' +
                                    JSON.stringify(err));
                   res.rows.should.have.length(3, 'unexpected rows: ' +
                                               JSON.stringify(res.rows));
                   res.total_rows.should.equal(3);
-                  console.log(16)
                   done();
                 });
               });
