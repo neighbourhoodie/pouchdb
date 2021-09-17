@@ -200,6 +200,7 @@ describe('migration', function () {
                            JSON.stringify(err));
           var oldLocalPouch =  new dbs.first.pouch(dbs.first.local,
                                                    dbs.first.localOpts);
+          
           oldPouch.replicate.to(oldLocalPouch, function (err, result) {
             should.not.exist(err, 'got error in replicate: ' +
                              JSON.stringify(err));
