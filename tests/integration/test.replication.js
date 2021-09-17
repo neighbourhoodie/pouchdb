@@ -1943,12 +1943,12 @@ adapters.forEach(function (adapters) {
     });
 
     function waitForChange(db, fun) {
-      console.log('> waitForChange(db, fun)', db, fun);
+      console.log('> waitForChange(db, fun)');
       return new testUtils.Promise(function (resolve) {
         var remoteChanges = db.changes({live: true, include_docs: true});
-        console.log('> waitForChange(db, fun), remoteChanges', remoteChanges);
+        console.log('> waitForChange(db, fun), remoteChanges');
         remoteChanges.on('change', function (change) {
-          console.log('> waitForChange(db, fun), onChange', change);
+          console.log('> waitForChange(db, fun), onChange');
           if (fun(change)) {
             console.log('> waitForChange(db, fun), fun(change) === true, not cancel remoteChanges');
             remoteChanges.cancel();
