@@ -207,7 +207,7 @@ RemoteRunner.prototype.bail = function () {
 
 function BenchmarkReporter(runner) {
   runner.on('benchmark:result', function (obj) {
-    console.log('      ', obj);
+    console.table(obj.results, obj.columns);
   });
 }
 

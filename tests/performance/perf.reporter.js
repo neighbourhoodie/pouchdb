@@ -57,22 +57,25 @@ exports.start = function (testCase, iter) {
 
 exports.end = function (testCase) {
   var key = testCase.name;
-  var obj = results.tests[key];
-  var stats = new Stats(obj.iterations);
-  obj.numIterations = obj.iterations.length;
-  delete obj.iterations; // keep it simple when reporting
+  var result = results.tests[key];
+  var stats = new Stats(result.iterations);
+  result.iter = result.iterations.length;
+  delete result.iterations; // keep it simple when reporting
 
-  obj.mean = stats.mean();
-  obj.stddev = stats.stddev();
-  obj.median = stats.median();
+  result.mean = stats.mean();
+  result.stddev = Math.round(stats.stddev() * 1000) / 1000;
+  result.median = stats.median();
   for (let p of [75, 90, 95, 99]) {
-    obj['p' + p] = stats.percentile(p);
+    result['p' + p] = stats.percentile(p);
   }
 
-  log('mean: ' + obj.mean + ' ±' + obj.stddev + ' ms');
-  log('median: ' + obj.median + ' ms\n');
+  var columns = Object.keys(result);
+  console.table([result], columns);
+
+  log('mean: ' + result.mean + ' ±' + result.stddev + ' ms');
+  log('median: ' + result.median + ' ms\n');
   testEventsBuffer.push({ name: 'pass', obj: { title: testCase.name } });
-  testEventsBuffer.push({ name: 'benchmark:result', obj });
+  testEventsBuffer.push({ name: 'benchmark:result', obj: { results: [result], columns } });
 };
 
 exports.startIteration = function (testCase) {
