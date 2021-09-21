@@ -3,7 +3,7 @@ var isNode = process && !process.browser;
 var UAParser = require('ua-parser-js');
 var ua = !isNode && new UAParser(navigator.userAgent);
 var marky = require('marky');
-var median = require('median');
+var Stats = require('./perf.stats');
 
 var results = {
   tests: {}
@@ -58,9 +58,18 @@ exports.start = function (testCase, iter) {
 exports.end = function (testCase) {
   var key = testCase.name;
   var obj = results.tests[key];
-  obj.median = median(obj.iterations);
+  var stats = new Stats(obj.iterations);
   obj.numIterations = obj.iterations.length;
   delete obj.iterations; // keep it simple when reporting
+
+  obj.mean = stats.mean();
+  obj.stddev = stats.stddev();
+  obj.median = stats.median();
+  for (let p of [75, 90, 95, 99]) {
+    obj['p' + p] = stats.percentile(p);
+  }
+
+  log('mean: ' + obj.mean + ' ±' + obj.stddev + ' ms');
   log('median: ' + obj.median + ' ms\n');
   testEventsBuffer.push({ name: 'pass', obj: { title: testCase.name } });
   testEventsBuffer.push({ name: 'benchmark:result', obj });
