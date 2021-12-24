@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mocha</title>
+    <link rel="stylesheet" type="text/css" href="../../node_modules/mocha/mocha.css">
+  </head>
+  <body>
+    <div id="mocha"></div>
+    <script src="../../node_modules/promise-polyfill/dist/polyfill.js"></script>
+    <script src="../../node_modules/whatwg-fetch/fetch.js"></script>
+    <script src="../../node_modules/mocha/mocha.js"></script>
+    <script src="../../node_modules/chai/chai.js"></script>
+    <script src="../../node_modules/chai-as-promised/lib/chai-as-promised.js"></script>
+    <script>
+      mocha.setup({
+        timeout:1200000,
+        ui: 'bdd'
+      });
+      var should = chai.should();
+      var assert = chai.assert;
+    </script>
+    <script src='utils-bundle.js'></script>
+    <script src='test.setup_global_hooks.js'></script>
+    <script src='test.aa.setup.js'></script>
+    <script src='test.replication.js'></script>
+    <script src='test.replication_events.js'></script>
+    <script src='test.sync.js'></script>
+    <script src='test.sync_events.js'></script>
+    <script src='test.retry.js'></script>
+    <script type="text/javascript" src="./webrunner.js"></script>
+  </body>
+</html>

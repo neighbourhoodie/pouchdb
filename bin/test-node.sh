@@ -16,6 +16,9 @@ if [ $TYPE = "integration" ]; then
 
     TESTS_PATH="tests/integration/test.*.js"
 fi
+if [ $TYPE = "replication" ]; then
+    TESTS_PATH="tests/replication/test.*.js"
+fi
 if [ $TYPE = "fuzzy" ]; then
     TESTS_PATH="tests/fuzzy/test.*.js"
 fi
@@ -27,7 +30,7 @@ if [ $TYPE = "find" ]; then
 fi
 if [ $COVERAGE ]; then
     # run all tests when testing for coverage
-    TESTS_PATH="tests/{unit,integration,mapreduce,component}/test*.js tests/find/*/test.*.js"
+    TESTS_PATH="tests/{unit,integration,mapreduce,component,replication}/test*.js tests/find/*/test.*.js"
 fi
 
 if [ $PERF ]; then
