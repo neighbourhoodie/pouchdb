@@ -57,6 +57,16 @@ function rebuildTestUtils() {
   return rebuildPromise;
 }
 
+function rebuildReplicationTestUtils() {
+  rebuildPromise = rebuildPromise.then(function () {
+    return browserifyPromise('tests/replication/utils.js',
+      'tests/replication/utils-bundle.js');
+  }).then(function () {
+    console.log('Rebuilt tests/replication/utils-bundle.js');
+  }).catch(console.error);
+  return rebuildPromise;
+}
+
 function rebuildPerf() {
   rebuildPromise = rebuildPromise.then(function () {
     return browserifyPromise('tests/performance/index.js',
@@ -72,6 +82,8 @@ function watchAll() {
     debounce(rebuildPouch, 700, {leading: true}));
   watch(['tests/integration/utils.js'],
     debounce(rebuildTestUtils, 700, {leading: true}));
+  watch(['tests/replication/utils.js'],
+    debounce(rebuildReplicationTestUtils, 700, {leading: true}));
   watch(['tests/performance/**/*.js'],
     debounce(rebuildPerf, 700, {leading: true}));
 }
@@ -85,6 +97,7 @@ Promise.resolve().then(function () {
   return Promise.all([
     rebuildPouch(),
     rebuildTestUtils(),
+    rebuildReplicationTestUtils(),
     rebuildPerf()
   ]);
 }).then(function () {

@@ -21,6 +21,7 @@ lib_unit
 src_browser/
 lerna-debug.log
 tests/integration/utils-bundle.js
+tests/replication/utils-bundle.js
 *.heapsnapshot
 /pouchdb-server-install
 package-lock.json
