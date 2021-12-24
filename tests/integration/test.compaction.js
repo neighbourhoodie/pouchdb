@@ -513,15 +513,9 @@ adapters.forEach(function (adapter) {
     //
     // We're testing some functionality specific to the implementation
     // of pouch-adapter-(idb|websql|leveldb), skip the tests if
-    // HTTP or if using new adapters (NEXT=1).
+    // HTTP.
 
-    // TODO BEFORE MERGING: Do we still need to block this off for the indexeddb
-    // adapter?
-    // Note that we're no longer invoking that adapter by passing NEXT=1, so
-    // this code isn't firing. If these tests work with indexeddb builds on travis
-    // we can drop this.
-    if (autoCompactionAdapters.indexOf(adapter) === -1 ||
-        'NEXT' in testUtils.params()) {
+    if (autoCompactionAdapters.indexOf(adapter) === -1) {
       return;
     }
 
@@ -533,7 +527,6 @@ adapters.forEach(function (adapter) {
     // the same time.
     //
     /* eslint-disable no-unreachable */
-    return;
 
     //
     // Tests for issue #2818 follow, which make some assumptions
