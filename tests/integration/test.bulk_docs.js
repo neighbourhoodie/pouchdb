@@ -551,7 +551,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('#3062 bulkDocs with staggered seqs', function () {
+    it.skip('#3062 bulkDocs with staggered seqs', function () {
       var db = new PouchDB(dbs.name);
       var docs = [];
       for (var i = 10; i <= 20; i++) {

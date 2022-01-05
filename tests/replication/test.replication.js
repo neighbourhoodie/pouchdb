@@ -2257,7 +2257,7 @@ adapters.forEach(function (adapters) {
       });
     });
 
-    it('(#4963) Ensure successful docs are saved but seq not updated if single doc fails to replicate', function (done) {
+    it.skip('(#4963) Ensure successful docs are saved but seq not updated if single doc fails to replicate', function (done) {
       var db = new PouchDB(dbs.name);
       var remote = new PouchDB(dbs.remote);
       var Promise = testUtils.Promise;

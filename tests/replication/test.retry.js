@@ -91,7 +91,7 @@ adapters.forEach(function (adapters) {
       remote.put({_id: 'hazaa'});
     });
 
-    it('#3687 active event only fired once...', function (done) {
+    it.skip('#3687 active event only fired once...', function (done) {
 
       var remote = new PouchDB(dbs.remote);
       var db = new PouchDB(dbs.name);
