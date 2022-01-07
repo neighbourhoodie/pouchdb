@@ -133,14 +133,12 @@ jobs:
         image: selenium/node-firefox:3.141.59-gold
         env: { HUB_HOST: hub, HUB_PORT: 4444 }
     strategy:
+      max-parallel: 1
       fail-fast: false
       matrix:
         client: ['selenium:firefox', 'selenium:chrome']
         adapter: ['idb', 'indexeddb', 'memory']
-        cmd:
-          - npm test
-          - TYPE=find PLUGINS=pouchdb-find npm test
-          - TYPE=mapreduce npm test
+        cmd: ['npm test', 'TYPE=find PLUGINS=pouchdb-find npm test', 'TYPE=mapreduce npm test']
     runs-on: ubuntu-latest
     env:
       POUCHDB_SRC: ../../packages/node_modules/pouchdb/dist/pouchdb.min.js
@@ -151,7 +149,16 @@ jobs:
       - uses: ./.github/actions/install-deps
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: ${{ matrix.cmd }}
+      # - run: ${{ matrix.cmd }}
+      - name: First test attempt
+        id: first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}
+        run: ${{ matrix.cmd }}
+        continue-on-error: true
+
+      - name: Retry again on failure
+        id: second-attempt
+        if: steps.first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}.outcome != 'success'
+        run: ${{ matrix.cmd }}
 
   # Run the integration, find and mapreduce tests using pouchdb-server as the
   # remote adapter. This checks that pouchdb-server works with the current
