@@ -27,7 +27,7 @@ adapters.forEach(function (adapters) {
       testUtils.cleanup([dbs.name, dbs.remote], done);
     });
 
-    it.skip('#4251 Should fire paused and active on sync', function (done) {
+    it('#4251 Should fire paused and active on sync', function (done) {
 
       var db = new PouchDB(dbs.name);
       var remote = new PouchDB(dbs.remote);
