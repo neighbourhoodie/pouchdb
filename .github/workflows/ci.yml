@@ -71,6 +71,7 @@ jobs:
         image: selenium/node-firefox:3.141.59-gold
         env: { HUB_HOST: hub, HUB_PORT: 4444 }
     strategy:
+      max-parallel: 1
       fail-fast: false
       matrix:
         couchdb: ['2.3','3.1']
@@ -134,6 +135,7 @@ jobs:
         env: { HUB_HOST: hub, HUB_PORT: 4444 }
     strategy:
       fail-fast: false
+      max-parallel: 1
       matrix:
         client: ['selenium:firefox', 'selenium:chrome']
         adapter: ['idb', 'indexeddb', 'memory']
@@ -168,6 +170,7 @@ jobs:
         image: selenium/node-firefox:3.141.59-gold
         env: { HUB_HOST: hub, HUB_PORT: 4444 }
     strategy:
+      max-parallel: 1
       fail-fast: false
       matrix:
         client: ['node', 'selenium:firefox', 'selenium:chrome']
