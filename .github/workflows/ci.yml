@@ -151,13 +151,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       # - run: ${{ matrix.cmd }}
       - name: First test attempt
-        id: first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}
+        id: "first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}"
         run: ${{ matrix.cmd }}
         continue-on-error: true
 
       - name: Retry again on failure
         id: second-attempt
-        if: steps.first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}.outcome != 'success'
+        if: "steps.first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}.outcome != 'success'"
         run: ${{ matrix.cmd }}
 
   # Run the integration, find and mapreduce tests using pouchdb-server as the
