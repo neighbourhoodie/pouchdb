@@ -144,6 +144,7 @@ jobs:
       POUCHDB_SRC: ../../packages/node_modules/pouchdb/dist/pouchdb.min.js
       CLIENT: ${{ matrix.client }}
       ADAPTERS: ${{ matrix.adapter }}
+      STEP_ID: first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}
     steps:
       - uses: actions/checkout@v2
       - uses: ./.github/actions/install-deps
@@ -151,13 +152,13 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       # - run: ${{ matrix.cmd }}
       - name: First test attempt
-        id: "first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}"
+        id: $STEP_ID
         run: ${{ matrix.cmd }}
         continue-on-error: true
 
       - name: Retry again on failure
         id: second-attempt
-        if: "steps.first-attempt-${{ matrix.cmd }}-${{ matrix.adapter }}-${{ matrix.client }}.outcome != 'success'"
+        if: steps.$STEP_ID.outcome != 'success'
         run: ${{ matrix.cmd }}
 
   # Run the integration, find and mapreduce tests using pouchdb-server as the
