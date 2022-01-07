@@ -36,7 +36,6 @@ jobs:
   couchdb-nodejs:
     needs: lint
     strategy:
-      max-parallel: 2
       fail-fast: false
       matrix:
         couchdb: ['2.3', '3.1']
@@ -73,7 +72,7 @@ jobs:
         image: selenium/node-firefox:3.141.59-gold
         env: { HUB_HOST: hub, HUB_PORT: 4444 }
     strategy:
-      max-parallel: 2
+      max-parallel: 1
       fail-fast: false
       matrix:
         couchdb: ['2.3','3.1']
@@ -105,7 +104,6 @@ jobs:
   nodejs-adapter:
     needs: lint
     strategy:
-      max-parallel: 2
       fail-fast: false
       matrix:
         node: [12]
@@ -139,7 +137,7 @@ jobs:
         image: selenium/node-firefox:3.141.59-gold
         env: { HUB_HOST: hub, HUB_PORT: 4444 }
     strategy:
-      max-parallel: 2
+      max-parallel: 1
       fail-fast: false
       matrix:
         client: ['selenium:firefox', 'selenium:chrome']
@@ -176,7 +174,7 @@ jobs:
         image: selenium/node-firefox:3.141.59-gold
         env: { HUB_HOST: hub, HUB_PORT: 4444 }
     strategy:
-      max-parallel: 2
+      max-parallel: 1
       fail-fast: false
       matrix:
         client: ['node', 'selenium:firefox', 'selenium:chrome']
@@ -202,7 +200,6 @@ jobs:
   nodejs:
     needs: lint
     strategy:
-      max-parallel: 2
       fail-fast: false
       matrix:
         node: [12]
