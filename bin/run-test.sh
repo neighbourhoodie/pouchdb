@@ -14,6 +14,7 @@ pouchdb-setup-server() {
   cd pouchdb-server-install
   npm init -y
   npm install pouchdb-server
+  npm i --save-exact colors@1.4.0
   cd ..
 
   for pkg in packages/node_modules/* ; do
