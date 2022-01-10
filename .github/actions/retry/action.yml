@@ -10,13 +10,15 @@ runs:
     - id: test
       run: ${{ inputs.cmd }}
       shell: bash
+      continue-on-error: true
 
     - name: First retry
       id: retry
       if: steps.test.outcome == 'failure'
       run: ${{ inputs.cmd }}
       shell: bash
-      
+      continue-on-error: true
+
     - name: Second retry
       if: steps.retry.outcome == 'failure'
       run: ${{ inputs.cmd }}
