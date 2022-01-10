@@ -93,6 +93,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           couchdb-version: ${{ matrix.couchdb }}
       - run: ${{ matrix.cmd }}
+        continue-on-error: true
+        post-if: step.status == 'failure'
+        post: ${{ matrix.cmd }}
       - name: Job status
         run: echo ${{ job.status }}
       - name: Retry
@@ -164,7 +167,6 @@ jobs:
       - uses: ./.github/actions/install-deps
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - run: ${{ matrix.cmd }}
       - name: Job status
         run: echo ${{ job.status }}
       - name: Retry
@@ -178,6 +180,11 @@ jobs:
         env:
           STEPS_CONTEXT: ${{ toJSON(steps) }}
         run: echo "$STEPS_CONTEXT"
+
+      - run: ${{ matrix.cmd }}
+        continue-on-error: true
+        post-if: step.status == 'failure'
+        post: ${{ matrix.cmd }}
 
   # Run the integration, find and mapreduce tests using pouchdb-server as the
   # remote adapter. This checks that pouchdb-server works with the current
@@ -211,6 +218,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: ${{ matrix.cmd }}
+        continue-on-error: true
+        post-if: step.status == 'failure'
+        post: ${{ matrix.cmd }}
       - name: Job status
         run: echo ${{ job.status }}
       - name: Retry
