@@ -127,5 +127,8 @@
       "readable-stream",
       "stream-to-promise"
     ]
+  },
+  "overrides": {
+    "colors":"1.4.0"
   }
 }
