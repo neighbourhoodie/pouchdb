@@ -93,9 +93,19 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           couchdb-version: ${{ matrix.couchdb }}
       - run: ${{ matrix.cmd }}
+      - name: Job status
+        run: echo ${{ job.status }}
       - name: Retry
         if: ${{ job.status == 'failure' }}
-        run: echo "Calling retry"
+        run: echo ${{ job.status }}
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
 
   # Run the integration, find and mapreduce tests against all the Node.js
   # PouchDB adapters. This should be run for every adapter on every version of
@@ -155,9 +165,19 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: ${{ matrix.cmd }}
+      - name: Job status
+        run: echo ${{ job.status }}
       - name: Retry
         if: ${{ job.status == 'failure' }}
-        run: echo "Calling retry"
+        run: echo ${{ job.status }}
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
 
   # Run the integration, find and mapreduce tests using pouchdb-server as the
   # remote adapter. This checks that pouchdb-server works with the current
@@ -191,9 +211,19 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: ${{ matrix.cmd }}
+      - name: Job status
+        run: echo ${{ job.status }}
       - name: Retry
         if: ${{ job.status == 'failure' }}
-        run: echo "Calling retry"
+        run: echo ${{ job.status }}
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJSON(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJSON(steps) }}
+        run: echo "$STEPS_CONTEXT"
 
   # Run all the other testing tasks -- unit tests, and so on. These should be
   # run on every version of Node.js that we support.
