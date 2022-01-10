@@ -1,0 +1,18 @@
+name: Retry
+
+inputs:
+  cmd: { required: true }
+
+runs:
+  using: composite
+
+  steps:
+    - id: test
+      run: ${{ inputs.cmd }}
+    - name: First retry
+      id: retry
+      if: steps.test.outcome == 'failure'
+      run: ${{ inputs.cmd }}
+    - name: Second retry
+      if: steps.retry.outcome == 'failure'
+      run: ${{ inputs.cmd }}

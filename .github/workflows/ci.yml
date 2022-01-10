@@ -92,12 +92,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           couchdb-version: ${{ matrix.couchdb }}
-      - id: testcmd 
-        run: ${{ matrix.cmd }}
-        continue-on-error: true
-      - name: Retry
-        if: steps.testcmd.outcome != 'success'
-        run: ${{ matrix.cmd }}
+      - uses: ./.github/actions/retry
+        with:
+          cmd: ${{ matrix.cmd }}
 
   # Run the integration, find and mapreduce tests against all the Node.js
   # PouchDB adapters. This should be run for every adapter on every version of
@@ -156,12 +153,9 @@ jobs:
       - uses: ./.github/actions/install-deps
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - id: testcmd 
-        run: ${{ matrix.cmd }}
-        continue-on-error: true
-      - name: Retry
-        if: steps.testcmd.outcome != 'success'
-        run: ${{ matrix.cmd }}
+      - uses: ./.github/actions/retry
+        with:
+          cmd: ${{ matrix.cmd }}
 
   # Run the integration, find and mapreduce tests using pouchdb-server as the
   # remote adapter. This checks that pouchdb-server works with the current
@@ -194,12 +188,9 @@ jobs:
       - uses: ./.github/actions/install-deps
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - id: testcmd 
-        run: ${{ matrix.cmd }}
-        continue-on-error: true
-      - name: Retry
-        if: steps.testcmd.outcome != 'success'
-        run: ${{ matrix.cmd }}
+      - uses: ./.github/actions/retry
+        with:
+          cmd: ${{ matrix.cmd }}
 
   # Run all the other testing tasks -- unit tests, and so on. These should be
   # run on every version of Node.js that we support.
