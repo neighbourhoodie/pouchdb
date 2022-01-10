@@ -93,6 +93,9 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           couchdb-version: ${{ matrix.couchdb }}
       - run: ${{ matrix.cmd }}
+      - name: Retry
+        if: ${{ job.status == 'failure' }}
+        run: echo "Calling retry"
 
   # Run the integration, find and mapreduce tests against all the Node.js
   # PouchDB adapters. This should be run for every adapter on every version of
@@ -152,6 +155,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: ${{ matrix.cmd }}
+      - name: Retry
+        if: ${{ job.status == 'failure' }}
+        run: echo "Calling retry"
 
   # Run the integration, find and mapreduce tests using pouchdb-server as the
   # remote adapter. This checks that pouchdb-server works with the current
@@ -185,6 +191,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: ${{ matrix.cmd }}
+      - name: Retry
+        if: ${{ job.status == 'failure' }}
+        run: echo "Calling retry"
 
   # Run all the other testing tasks -- unit tests, and so on. These should be
   # run on every version of Node.js that we support.
