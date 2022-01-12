@@ -523,23 +523,22 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('3356 throw inside a filter', async () => {
+    it('3356 throw inside a filter', function (done) {
       var db = new PouchDB(dbs.name);
-
-      try {
-        await db.put({
-          _id: "_design/test",
-          filters: {
-            test: function () {
-              throw new Error(); // syntaxerrors can't be caught either.
-            }.toString()
-          }
-        });
-        
-        await db.changes({filter: 'test/test'});
-      } catch (error) {
-        should.exist(error);
-      }
+      db.put({
+        _id: "_design/test",
+        filters: {
+          test: function () {
+            throw new Error(); // syntaxerrors can't be caught either.
+          }.toString()
+        }
+      }).should.eventually.be.fulfilled.then(function () {
+        return db.changes({filter: 'test/test'}).should.eventually.be.rejected;
+      }).then(function () {
+        done();
+      }).catch(function (err) {
+        done('We had an error - ' + err);
+      });
     });
 
     it('Changes with missing param `view` in request', function (done) {
