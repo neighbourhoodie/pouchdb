@@ -128,21 +128,24 @@ function tests(suiteName, dbName, dbType, viewType) {
     });
 
     if (dbType === 'local' && viewType === 'temp') {
-      it("with a closure", function () {
+      it("with a closure", async () => {
         var db = new PouchDB(dbName);
-        return db.bulkDocs({docs: [
+
+        await db.bulkDocs({docs: [
           {foo: 'bar'},
           { _id: 'volatile', foo: 'baz' }
-        ]}).then(function () {
-          var queryFun = (function (test) {
-            return function (doc, emit) {
-              if (doc._id === test) {
-                emit(doc.foo);
-              }
-            };
-          }('volatile'));
-          return db.query(queryFun, {reduce: false});
-        }).should.become({
+        ]});
+
+        var queryFun = (function (test) {
+          return function (doc, emit) {
+            if (doc._id === test) {
+              emit(doc.foo);
+            }
+          };
+        }('volatile'));
+        const result = await db.query(queryFun, {reduce: false});
+
+        result.should.deep.equal({
           total_rows: 1,
           offset: 0,
           rows: [
@@ -927,25 +930,25 @@ function tests(suiteName, dbName, dbType, viewType) {
       });
     });
 
-    it("Test joins", function () {
+    it("Test joins", async () => {
       var db = new PouchDB(dbName);
-      return createView(db, {
+      const queryFun = await createView(db, {
         map: function (doc) {
           if (doc.doc_id) {
             emit(doc._id, {_id: doc.doc_id});
           }
         }
-      }).then(function (queryFun) {
-        return db.bulkDocs({docs: [
-          {_id: 'mydoc', foo: 'bar'},
-          { doc_id: 'mydoc' }
-        ]}).then(function () {
-          return db.query(queryFun, {include_docs: true, reduce: false});
-        }).then(function (res) {
-          should.exist(res.rows[0].doc);
-          return res.rows[0].doc._id;
-        });
-      }).should.become('mydoc', 'mydoc included');
+      });
+      
+      await db.bulkDocs({docs: [
+        {_id: 'mydoc', foo: 'bar'},
+        { doc_id: 'mydoc' }
+      ]});
+
+      const res = await db.query(queryFun, {include_docs: true, reduce: false});
+      should.exist(res.rows[0].doc);
+      const docId = res.rows[0].doc._id;
+      docId.should.equal('mydoc');
     });
 
     it("No reduce function", function () {
@@ -994,77 +997,72 @@ function tests(suiteName, dbName, dbType, viewType) {
       });
     });
 
-    it("Built in _sum reduce function", function () {
+    it("Built in _sum reduce function", async () => {
       var db = new PouchDB(dbName);
-      return createView(db, {
+      const queryFun = await createView(db, {
         map: function (doc) {
           emit(doc.val, 1);
         },
         reduce: "_sum"
-      }).then(function (queryFun) {
-        return db.bulkDocs({
-          docs: [
-            { val: 'bar' },
-            { val: 'bar' },
-            { val: 'baz' }
-          ]
-        }).then(function () {
-          return db.query(queryFun, {reduce: true, group_level: 999});
-        }).then(function (resp) {
-          return resp.rows.map(function (row) {
-            return row.value;
-          });
-        });
-      }).should.become([2, 1]);
+      });
+
+      await db.bulkDocs({
+        docs: [
+          { val: 'bar' },
+          { val: 'bar' },
+          { val: 'baz' }
+        ]} );
+      const resp = await db.query(queryFun, {reduce: true, group_level: 999});
+      const values = resp.rows.map((row) =>row.value);
+      values.should.deep.equal([2, 1]);
     });
 
-    it("Built in _count reduce function", function () {
+    it("Built in _count reduce function", async () => {
       var db = new PouchDB(dbName);
-      return createView(db, {
+
+      const queryFun = await createView(db, {
         map: function (doc) {
           emit(doc.val, doc.val);
         },
         reduce: "_count"
-      }).then(function (queryFun) {
-        return db.bulkDocs({
-          docs: [
-            { val: 'bar' },
-            { val: 'bar' },
-            { val: 'baz' }
-          ]
-        }).then(function () {
-          return db.query(queryFun, {reduce: true, group_level: 999});
-        }).then(function (resp) {
-          return resp.rows.map(function (row) {
-            return row.value;
-          });
-        });
-      }).should.become([2, 1]);
+      });
+
+      await db.bulkDocs({
+        docs: [
+          { val: 'bar' },
+          { val: 'bar' },
+          { val: 'baz' }
+        ]
+      });
+
+      const resp = await db.query(queryFun, {reduce: true, group_level: 999});
+      const values = resp.rows.map(row => row.value);
+      values.should.deep.equal([2, 1]);
     });
 
-    it("Built in _stats reduce function", function () {
+    it("Built in _stats reduce function", async () => {
       var db = new PouchDB(dbName);
-      return createView(db, {
+
+      const queryFun = await createView(db, {
         map: "function(doc){emit(doc.val, 1);}",
         reduce: "_stats"
-      }).then(function (queryFun) {
-        return db.bulkDocs({
-          docs: [
-            { val: 'bar' },
-            { val: 'bar' },
-            { val: 'baz' }
-          ]
-        }).then(function () {
-          return db.query(queryFun, {reduce: true, group_level: 999});
-        }).then(function (res) {
-          return res.rows[0].value;
-        });
-      }).should.become({
+      });
+      await db.bulkDocs({
+        docs: [
+          { val: 'bar' },
+          { val: 'bar' },
+          { val: 'baz' }
+        ]
+      });
+
+      const res = await db.query(queryFun, {reduce: true, group_level: 999});
+      
+      res.rows[0].value.should.deep.equal({
         sum: 2,
         count: 2,
         min: 1,
         max: 1,
-        sumsqr: 2
+        sumsqr: 2,
       });
     });
 
@@ -1149,28 +1147,27 @@ function tests(suiteName, dbName, dbType, viewType) {
       });
     });
 
-    it("#6364 Recognize built in reduce functions with trailing garbage", function () {
+    it("#6364 Recognize built in reduce functions with trailing garbage", async () => {
       var db = new PouchDB(dbName);
-      return createView(db, {
+
+      const queryFun = await createView(db, {
         map: function (doc) {
           emit(doc.val, 1);
         },
         reduce: "_sum\n \r\nandothergarbage"
-      }).then(function (queryFun) {
-        return db.bulkDocs({
-          docs: [
-            { val: 'bar' },
-            { val: 'bar' },
-            { val: 'baz' }
-          ]
-        }).then(function () {
-          return db.query(queryFun, {reduce: true, group_level: 999});
-        }).then(function (resp) {
-          return resp.rows.map(function (row) {
-            return row.value;
-          });
-        });
-      }).should.become([2, 1]);
+      });
+      
+      await db.bulkDocs({
+        docs: [
+          { val: 'bar' },
+          { val: 'bar' },
+          { val: 'baz' }
+        ]
+      });
+      
+      const resp = await db.query(queryFun, {reduce: true, group_level: 999});
+      const values = resp.rows.map(row => row.value);
+      values.should.deep.equal([2, 1]);
     });
 
     it("Starts with _ but not a built in reduce function should throw",
@@ -3628,31 +3625,33 @@ function tests(suiteName, dbName, dbType, viewType) {
       });
     });
 
-    it('should work with post', function () {
+    it('should work with post', async () => {
       var db = new PouchDB(dbName);
-      return createView(db, {
+
+      const mapFun = await createView(db, {
         map: function (doc) { emit(doc._id); }
-      }).then(async function (mapFun) {
-        return db.bulkDocs({docs: [{_id : 'bazbazbazb'}]}).then(function () {
-          var keys = ['bazbazbazb'];
-          return db.query(mapFun, {keys: keys}).then(function (resp) {
-            resp.total_rows.should.equal(1);
-            resp.rows.should.have.length(1);
-            return resp.rows.every(function (row) {
-              return row.id === 'bazbazbazb' && row.key === 'bazbazbazb';
-            });
-          });
-        }).should.become(true);
       });
+      await db.bulkDocs({docs: [{_id : 'bazbazbazb'}]});
+
+      var keys = ['bazbazbazb'];
+      const resp = await db.query(mapFun, {keys: keys});
+      resp.total_rows.should.equal(1);
+      resp.rows.should.have.length(1);
+      const idsAndKeysAreEqual = resp.rows.every((row) => {
+        return row.id === 'bazbazbazb' && row.key === 'bazbazbazb';
+      });
+      idsAndKeysAreEqual.should.equal(true);
     });
 
-    it("should accept trailing ';' in a map definition (#178)", function () {
+    it("should accept trailing ';' in a map definition (#178)", async () => {
       var db = new PouchDB(dbName);
-      return createView(db, {
+
+      const queryFun = await createView(db, {
         map: "function(doc){};\n"
-      }).then(function (queryFun) {
-        return db.query(queryFun);
-      }).should.become({
+      });
+      const result = await db.query(queryFun);
+      
+      result.should.deep.equal({
         offset: 0,
         rows: [],
         total_rows: 0

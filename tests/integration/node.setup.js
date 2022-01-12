@@ -21,7 +21,6 @@ exec('mkdir -p ' + testsDir, function () {
 global.testUtils = require('./utils.js');
 global.PouchDB = testUtils.loadPouchDB();
 var chai = require('chai');
-chai.use(require('chai-as-promised'));
 global.should = chai.should();
 global.assert = chai.assert;
 require('mkdirp').sync('./tmp');
