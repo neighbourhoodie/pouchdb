@@ -128,7 +128,7 @@ function tests(suiteName, dbName, dbType, viewType) {
     });
 
     if (dbType === 'local' && viewType === 'temp') {
-      it("with a closure", async () => {
+      it("with a closure", async function () {
         var db = new PouchDB(dbName);
 
         await db.bulkDocs({docs: [
@@ -930,7 +930,7 @@ function tests(suiteName, dbName, dbType, viewType) {
       });
     });
 
-    it("Test joins", async () => {
+    it("Test joins", async function () {
       var db = new PouchDB(dbName);
       const queryFun = await createView(db, {
         map: function (doc) {
@@ -997,7 +997,7 @@ function tests(suiteName, dbName, dbType, viewType) {
       });
     });
 
-    it("Built in _sum reduce function", async () => {
+    it("Built in _sum reduce function", async function () {
       var db = new PouchDB(dbName);
       const queryFun = await createView(db, {
         map: function (doc) {
@@ -1017,7 +1017,7 @@ function tests(suiteName, dbName, dbType, viewType) {
       values.should.deep.equal([2, 1]);
     });
 
-    it("Built in _count reduce function", async () => {
+    it("Built in _count reduce function", async function () {
       var db = new PouchDB(dbName);
 
       const queryFun = await createView(db, {
@@ -1040,7 +1040,7 @@ function tests(suiteName, dbName, dbType, viewType) {
       values.should.deep.equal([2, 1]);
     });
 
-    it("Built in _stats reduce function", async () => {
+    it("Built in _stats reduce function", async function () {
       var db = new PouchDB(dbName);
 
       const queryFun = await createView(db, {
@@ -1147,7 +1147,7 @@ function tests(suiteName, dbName, dbType, viewType) {
       });
     });
 
-    it("#6364 Recognize built in reduce functions with trailing garbage", async () => {
+    it("#6364 Recognize built in reduce functions with trailing garbage", async function () {
       var db = new PouchDB(dbName);
 
       const queryFun = await createView(db, {
@@ -3625,7 +3625,7 @@ function tests(suiteName, dbName, dbType, viewType) {
       });
     });
 
-    it('should work with post', async () => {
+    it('should work with post', async function () {
       var db = new PouchDB(dbName);
 
       const mapFun = await createView(db, {
@@ -3643,7 +3643,7 @@ function tests(suiteName, dbName, dbType, viewType) {
       idsAndKeysAreEqual.should.equal(true);
     });
 
-    it("should accept trailing ';' in a map definition (#178)", async () => {
+    it("should accept trailing ';' in a map definition (#178)", async function () {
       var db = new PouchDB(dbName);
 
       const queryFun = await createView(db, {
