@@ -12,10 +12,11 @@ try {
  hasIndexedDB = false;
 }
 
-var adapters = [ hasIndexedDB ? ['idb', 'memory'] : ['leveldb', 'memory'] ];
+// var adapters = [ hasIndexedDB ? ['idb', 'memory'] : ['leveldb', 'memory'] ];
+var secondaryAdapter = 'memory';
 
-adapters.forEach(function ([primaryAdapter, secondaryAdapter]) {
-  describe('test.viewadapter.js-' + primaryAdapter + '-' + secondaryAdapter, function () {
+// adapters.forEach(function ([primaryAdapter, secondaryAdapter]) {
+  describe('test.viewadapter.js-' + 'local' + '-' + secondaryAdapter, function () {
     var dbs = {};
 
     var docs = [
@@ -57,7 +58,7 @@ adapters.forEach(function ([primaryAdapter, secondaryAdapter]) {
     }
 
     beforeEach(function () {
-      dbs.name = testUtils.adapterUrl(primaryAdapter, 'testdb');
+      dbs.name = testUtils.adapterUrl('local', 'testdb');
     });
 
     afterEach(function (done) {
@@ -65,7 +66,7 @@ adapters.forEach(function ([primaryAdapter, secondaryAdapter]) {
     });
 
     it('Create pouch with separate view adapters', function (done) {
-      var db = new PouchDB(dbs.name, {adapter: primaryAdapter, view_adapter: secondaryAdapter});
+      var db = new PouchDB(dbs.name, {view_adapter: secondaryAdapter});
 
       db.bulkDocs(docs).then(function () {
         db.query('index', {
@@ -111,7 +112,7 @@ adapters.forEach(function ([primaryAdapter, secondaryAdapter]) {
     });
 
     it('Create pouch with no view adapters', function (done) {
-      var db = new PouchDB(dbs.name, {adapter: primaryAdapter});
+      var db = new PouchDB(dbs.name);
 
       db.bulkDocs(docs).then(function () {
         db.query('index', {
@@ -146,4 +147,4 @@ adapters.forEach(function ([primaryAdapter, secondaryAdapter]) {
       });
     });
   });
-});
+// });

@@ -26,21 +26,21 @@ global.should = chai.should();
 global.assert = chai.assert;
 require('mkdirp').sync('./tmp');
 
-if (process.env.PLUGINS && !process.env.COVERAGE) {
-  // in coverage, these plugins are explicitly included
-  // in pouchdb-for-coverage
-  process.env.PLUGINS.split(',').forEach(function (plugin) {
-    PouchDB.plugin(require('../../packages/node_modules/' + plugin));
-  });
-}
+// if (process.env.PLUGINS && !process.env.COVERAGE) {
+//   // in coverage, these plugins are explicitly included
+//   // in pouchdb-for-coverage
+//   process.env.PLUGINS.split(',').forEach(function (plugin) {
+//     PouchDB.plugin(require('../../packages/node_modules/' + plugin));
+//   });
+// }
 
-console.log('running node setup with env', process.env);
-if (process.env.ADAPTERS) {
-  console.log('has adapters', process.env.ADAPTERS);
-  process.env.ADAPTERS.split(',').forEach(function (adapter) {
-    console.log('loading adapter', adapter);
-    PouchDB.plugin(require('../../packages/node_modules/pouchdb-adapter-' + adapter));
-    console.log('loading adapter', adapter, 'done');
+// console.log('running node setup with env', process.env);
+// if (process.env.ADAPTERS) {
+//   console.log('has adapters', process.env.ADAPTERS);
+//   process.env.ADAPTERS.split(',').forEach(function (adapter) {
+//     console.log('loading adapter', adapter);
+//     PouchDB.plugin(require('../../packages/node_modules/pouchdb-adapter-' + adapter));
+//     console.log('loading adapter', adapter, 'done');
 
-  });
-}
+//   });
+// }
