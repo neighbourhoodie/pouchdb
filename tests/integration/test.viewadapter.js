@@ -58,7 +58,7 @@ viewAdapters.forEach(viewAdapter => {
       var db = new PouchDB(dbs.name, {view_adapter: viewAdapter});
 
       if (db.adapter === viewAdapter) {
-        return;
+        return done();
       }
 
       db.bulkDocs(docs).then(function () {
@@ -115,10 +115,10 @@ viewAdapters.forEach(viewAdapter => {
           if (testUtils.isNode()) {
             const dbs = getDbNamesFromLevelDBFolder(db.name);
             if (viewAdapter === 'memory') {
-              dbs.length.should.equal(2); // db and dependent db created
+              dbs.length.should.equal(0);
               done();
             } else {
-              dbs.length.should.equal(0);
+              dbs.length.should.equal(2); // db and dependent db created
               done();
             }
           } else {
