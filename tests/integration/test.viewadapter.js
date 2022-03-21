@@ -1,22 +1,11 @@
-/* To test these adapters, you can run
-ADAPTERS=memory CLIENT=selenium:firefox npm run test */
 'use strict';
 
 const fs = require('fs');
 
-let hasIndexedDB = false;
-try {
- indexedDB;
- hasIndexedDB = true;
-} catch (_) {
- hasIndexedDB = false;
-}
+const viewAdapters = testUtils.viewAdapters();
 
-// var adapters = [ hasIndexedDB ? ['idb', 'memory'] : ['leveldb', 'memory'] ];
-var secondaryAdapter = 'memory';
-
-// adapters.forEach(function ([primaryAdapter, secondaryAdapter]) {
-  describe('test.viewadapter.js-' + 'local' + '-' + secondaryAdapter, function () {
+viewAdapters.forEach(viewAdapter => {
+  describe('test.viewadapter.js-' + 'local' + '-' + viewAdapter, function () {
     var dbs = {};
 
     var docs = [
@@ -66,7 +55,7 @@ var secondaryAdapter = 'memory';
     });
 
     it('Create pouch with separate view adapters', function (done) {
-      var db = new PouchDB(dbs.name, {view_adapter: secondaryAdapter});
+      var db = new PouchDB(dbs.name, {view_adapter: viewAdapter});
 
       db.bulkDocs(docs).then(function () {
         db.query('index', {
@@ -74,9 +63,12 @@ var secondaryAdapter = 'memory';
           include_docs: true
         }).then(function () {
 
-          if (hasIndexedDB) {
+          if (testUtils.isNode()) {
+            const dbs = getDbNamesFromLevelDBFolder(db.name);
+            dbs.length.should.equal(1); // only one db created on disk, no dependent db created
+            done();
+          } else {
             var { viewDbName, docDbName } = getDBNames(localStorage);
-  
             // check indexedDB for saved views
             // need to add '_pouch_' because views are saved in memory
             var viewRequest = indexedDB.open('_pouch_' + viewDbName, 1);
@@ -88,13 +80,13 @@ var secondaryAdapter = 'memory';
               event.oldVersion.should.equal(0);
               event.newVersion.should.equal(1);
             };
-  
+
             viewRequest.onsuccess = function () {
               // Nothing is saved here
               viewRequest.result.objectStoreNames.length.should.equal(0);
               viewRequest.result.version.should.equal(1);
             };
-  
+
             // check indexedDB for saved docs
             var docRequest = indexedDB.open(docDbName, 5);
             docRequest.onsuccess = function () {
@@ -102,10 +94,6 @@ var secondaryAdapter = 'memory';
               docRequest.result.objectStoreNames.length.should.equal(7);
               done();
             };
-          } else { // !hasIndexedDB
-            const dbs = getDbNamesFromLevelDBFolder(db.name);
-            dbs.length.should.equal(1); // only one db created on disk, no dependent db created
-            done();
           }
         });
       });
@@ -119,9 +107,14 @@ var secondaryAdapter = 'memory';
           key: 'abc',
           include_docs: true
         }).then(function () {
-          if (hasIndexedDB) {
+
+          if (testUtils.isNode()) {
+            const dbs = getDbNamesFromLevelDBFolder(db.name);
+            dbs.length.should.equal(2); // db and dependent db created
+            done();
+          } else {
             var { viewDbName, docDbName } = getDBNames(localStorage);
-  
+
             // check indexedDB for saved views
             var viewRequest = indexedDB.open(viewDbName, 5);
             viewRequest.onsuccess = function () {
@@ -130,7 +123,7 @@ var secondaryAdapter = 'memory';
               // the view query data is stored in the default adapter database.
               viewRequest.result.objectStoreNames.length.should.equal(7);
             };
-  
+
             // check indexedDB for saved docs
             var docRequest = indexedDB.open(docDbName, 5);
             docRequest.onsuccess = function () {
@@ -138,13 +131,9 @@ var secondaryAdapter = 'memory';
               docRequest.result.objectStoreNames.length.should.equal(7);
               done();
             };
-          } else { // !hasIndexedDB
-            const dbs = getDbNamesFromLevelDBFolder(db.name);
-            dbs.length.should.equal(2); // db and dependent db created
-            done();
           }
         });
       });
     });
   });
-// });
+});
