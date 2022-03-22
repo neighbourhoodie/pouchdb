@@ -51,16 +51,8 @@ commonUtils.loadPouchDB = function (opts) {
   var viewAdapters = commonUtils.viewAdapters().concat(opts.viewAdapters || []);
   var plugins = commonUtils.plugins().concat(opts.plugins || []);
 
-  for (let adapter of adapters) {
-    if (adapter === 'websql') {
-      adapter = 'node-websql';
-    }
-    if (PLUGIN_ADAPTERS.includes(adapter)) {
-      plugins.push(`pouchdb-adapter-${adapter}`);
-    }
-  }
-
-  for (let adapter of viewAdapters) {
+  const allAdapters = [...adapters, ...viewAdapters];
+  for (let adapter of allAdapters) {
     if (adapter === 'websql') {
       adapter = 'node-websql';
     }
