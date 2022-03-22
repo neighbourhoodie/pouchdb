@@ -114,13 +114,9 @@ viewAdapters.forEach(viewAdapter => {
 
           if (testUtils.isNode()) {
             const dbs = getDbNamesFromLevelDBFolder(db.name);
-            if (viewAdapter === 'memory') {
-              dbs.length.should.equal(0);
-              done();
-            } else {
-              dbs.length.should.equal(2); // db and dependent db created
-              done();
-            }
+            const expectedLength = db.adapter === 'memory' ? 0 : 2;
+            dbs.length.should.equal(expectedLength);
+            done();
           } else {
             var { viewDbName, docDbName } = getDBNames(localStorage);
 
