@@ -1,5 +1,4 @@
 "use strict";
-console.log('node-setup being required');
 // throw an error if any EventEmitter adds too many listeners
 require('throw-max-listeners-error');
 
