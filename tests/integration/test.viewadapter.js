@@ -48,10 +48,6 @@ viewAdapters.forEach(viewAdapter => {
       dbs.name = testUtils.adapterUrl('local', 'testdb');
     });
 
-    afterEach(function (done) {
-      testUtils.cleanup([dbs.name], done);
-    });
-
     it('Create pouch with separate view adapters', async function () {
       const db = new PouchDB(dbs.name, {view_adapter: viewAdapter});
 
