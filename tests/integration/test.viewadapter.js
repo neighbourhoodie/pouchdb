@@ -1,7 +1,5 @@
 'use strict';
 
-const fs = require('fs');
-
 const viewAdapters = testUtils.viewAdapters();
 
 viewAdapters.forEach(viewAdapter => {
@@ -42,7 +40,7 @@ viewAdapters.forEach(viewAdapter => {
     }
 
     function getDbNamesFromLevelDBFolder(name) {
-      const dbs = fs.readdirSync('./tmp');
+      const dbs = global.fs.readdirSync('./tmp');
       return dbs.filter((dbName => dbName.includes(name)));
     }
 
