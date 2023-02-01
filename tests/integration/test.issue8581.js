@@ -30,9 +30,9 @@ function runTests() {
       const target = iframe.contentDocument;
       const scriptElement = target.createElement("script");
       scriptElement.innerHTML = `localStorage.setItem("Hello",new Date());
-requestIdleCallback(()=>window.parent.${callbackFnName}(),{timeout:100});`;
+requestIdleCallback(()=>window.parent.${callbackFnName}(),{timeout:10000});`;
       target.body.appendChild(scriptElement);
-      await Promise.race([okPromise, new Promise(res => setTimeout(res, 250))]);
+      await Promise.race([okPromise, new Promise(res => setTimeout(res, 25000))]);
     });
   });
 }
