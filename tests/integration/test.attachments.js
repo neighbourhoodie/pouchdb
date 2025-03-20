@@ -944,7 +944,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('#2858 {binary: true} in live changes', function () {
+    it.only('#2858 {binary: true} in live changes', function () {
       var db = new PouchDB(dbs.name);
       var docs = [binAttDoc, binAttDoc2, pngAttDoc,
         {_id: 'bar'},
@@ -957,10 +957,16 @@ adapters.forEach(function (adapter) {
             binary: true,
             include_docs: true,
             live: true
-          }).on('error', reject)
+          }).on('error', (error) => {
+            console.log('changes on error', error)
+            reject(error)
+          })
             .on('change', handleChange)
-            .on('complete', resolve);
-
+            .on('complete', () => {
+              console.log('change on complete')
+              resolve()
+            });
+          console.log('ret', changes)
           var promise = Promise.resolve();
           var done = 0;
 
@@ -972,6 +978,7 @@ adapters.forEach(function (adapter) {
 
           var changes = 0;
           function handleChange(change) {
+            console.log('#2858 handle change', change)
             changes++;
             promise = promise.then(function () {
               var doc = docs.filter(function (x) {
@@ -999,7 +1006,10 @@ adapters.forEach(function (adapter) {
                 testUtils.btoa(bin).should.equal(expected.data);
                 doneWithDoc();
               });
-            }).catch(reject);
+            }).catch((error) => {
+              console.log('#2858 catch', error)
+              reject(error)
+            });
           }
         });
       });
