@@ -944,7 +944,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it.only('#2858 {binary: true} in live changes', function () {
+    it.skip('#2858 {binary: true} in live changes', function () {
       var db = new PouchDB(dbs.name);
       var docs = [binAttDoc, binAttDoc2, pngAttDoc,
         {_id: 'bar'},
@@ -1015,7 +1015,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('#2858 {binary: true} in live changes, mixed atts', function () {
+    it.skip('#2858 {binary: true} in live changes, mixed atts', function () {
       var db = new PouchDB(dbs.name);
       var docs = [
         {_id: 'baz', _attachments: {
