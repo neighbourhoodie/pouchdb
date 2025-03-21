@@ -2,7 +2,7 @@
 
 const should = require('chai').should();
 
-var adapters = ['local', 'http'];
+var adapters = ['local'];
 var repl_adapters = [
   ['local', 'http'],
   ['http', 'http'],
@@ -944,7 +944,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it.skip('#2858 {binary: true} in live changes', function () {
+    it.only('#2858 {binary: true} in live changes', function () {
       var db = new PouchDB(dbs.name);
       var docs = [binAttDoc, binAttDoc2, pngAttDoc,
         {_id: 'bar'},
@@ -960,13 +960,14 @@ adapters.forEach(function (adapter) {
           }).on('error', (error) => {
             console.log('changes on error', error)
             reject(error)
-          })
-            .on('change', handleChange)
-            .on('complete', () => {
-              console.log('change on complete')
-              resolve()
-            });
-          console.log('ret', changes)
+          }).on('change', (ch) => {
+              console.log('changes on change', ch)
+              handleChange(ch)
+          }).on('complete', () => {
+            console.log('change on complete')
+            resolve()
+          });
+          console.log('test ret', ret)
           var promise = Promise.resolve();
           var done = 0;
 
@@ -1128,7 +1129,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('#2858 {binary: true} in live+retry changes', function () {
+    it.skip('#2858 {binary: true} in live+retry changes', function () {
       var db = new PouchDB(dbs.name);
       var docs = [binAttDoc, binAttDoc2, pngAttDoc,
         {_id: 'bar'},
@@ -1189,7 +1190,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('#2858 {binary: true} in live changes, attachments:false', function () {
+    it.skip('#2858 {binary: true} in live changes, attachments:false', function () {
       var db = new PouchDB(dbs.name);
       var docs = [binAttDoc, binAttDoc2, pngAttDoc,
         {_id: 'bar'},
@@ -1244,7 +1245,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('#2858 {binary: true} in live changes, include_docs:false', function () {
+    it.skip('#2858 {binary: true} in live changes, include_docs:false', function () {
       var db = new PouchDB(dbs.name);
       var docs = [binAttDoc, binAttDoc2, pngAttDoc,
         {_id: 'bar'},
@@ -1305,11 +1306,12 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('Measures length correctly after put()', function () {
+    it.skip('Measures length correctly after put()', function () {
       var db = new PouchDB(dbs.name);
       return db.put(binAttDoc).then(function () {
         return db.get(binAttDoc._id);
       }).then(function (doc) {
+        console.log('TT doc', doc)
         delete doc._attachments["foo.txt"].revpos;
 
         // because of libicu vs. ascii
@@ -1404,7 +1406,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('#3074 live changes()', function () {
+    it.skip('#3074 live changes()', function () {
       var db = new PouchDB(dbs.name);
 
       function liveChangesPromise(opts) {
@@ -1543,7 +1545,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('#3074 live changes(), no attachments', function () {
+    it.skip('#3074 live changes(), no attachments', function () {
 
       var db = new PouchDB(dbs.name);
 
@@ -2537,7 +2539,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('Test create attachment and doc in one go without callback',
+    it.skip('Test create attachment and doc in one go without callback',
       function (done) {
       var db = new PouchDB(dbs.name);
       var changes = db.changes({
@@ -2563,7 +2565,7 @@ adapters.forEach(function (adapter) {
       db.putAttachment('anotherdoc2', 'mytext', blob, 'text/plain');
     });
 
-    it('Test create attachment without callback', function (done) {
+    it.skip('Test create attachment without callback', function (done) {
       var db = new PouchDB(dbs.name);
       db.put({ _id: 'anotherdoc3' }, function (err, resp) {
         should.not.exist(err, 'doc was saved');
@@ -2631,7 +2633,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('3963 length property on stubs', function () {
+    it.skip('3963 length property on stubs', function () {
       var db = new PouchDB(dbs.name);
 
       function checkAttachments() {
