@@ -25,3 +25,9 @@ try {
 }
 console.log('done')
 
+// import EventEmitter from 'events';
+// 
+// const e = new EventEmitter()
+// 
+// e.on('foo', (ev) => console.log('got', ev))
+// e.emit('foo', 1)
