@@ -5,7 +5,7 @@ title: Asynchronous code
 sidebar: guides_nav.html
 ---
 
-PouchDB provides a fully **asynchronous** API. This ensures that when you talk to PouchDB, the UI doesn't stutter, because the DOM is not being blocked by database operations.
+Test PouchDB provides a fully **asynchronous** API. This ensures that when you talk to PouchDB, the UI doesn't stutter, because the DOM is not being blocked by database operations.
 
 However, working with asynchronous code can be very complex, especially if you're only accustomed to synchronous APIs. So it's worth going over some of the basics.
 
