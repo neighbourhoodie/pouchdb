@@ -3,18 +3,27 @@ name: PouchDB Docs
 on:
   push:
     paths:
-      - '.github/actions/**'
-      - '.github/workflows/docs.yml'
-      - 'package.json'
-      - 'bin/**'
+      - '.github/ISSUE_TEMPLATE/'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+      - 'CONTRIBUTING.md'
+      - 'DISCLAIMER'
+      - 'LICENSE'
+      - 'NOTICE'
+      - 'README.md'
+      - 'TESTING.md'
       - 'docs/**'
+
   pull_request:
     branches: [master]
     paths:
-      - '.github/actions/**'
-      - '.github/workflows/docs.yml'
-      - 'package.json'
-      - 'bin/**'
+      - '.github/ISSUE_TEMPLATE/'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+      - 'CONTRIBUTING.md'
+      - 'DISCLAIMER'
+      - 'LICENSE'
+      - 'NOTICE'
+      - 'README.md'
+      - 'TESTING.md'
       - 'docs/**'
 
 jobs:
