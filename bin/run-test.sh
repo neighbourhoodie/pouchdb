@@ -83,7 +83,11 @@ pouchdb-build-node() {
 }
 
 if [[ $CI = true ]] && [[ $CLIENT != node ]]; then
-  npx playwright install --with-deps "$CLIENT"
+  # npx playwright install --with-deps "$CLIENT"
+  # The full install with deps was glacially slow on CI 
+  npx playwright install "$CLIENT"
+  sudo apt-get update
+  sudo apt-get install -y libwoff1 libvpx9 libevent-2.1-7t64 libopus0 libgstreamer-plugins-base1.0-0 libgstreamer-gl1.0-0 libgstreamer-plugins-bad1.0-0 libflite1 libavif16 libharfbuzz-icu0 libsecret-1-0 libhyphen0 libwayland-server0 libmanette-0.2-0 libgles2 gstreamer1.0-libav
 fi
 
 if [[ -n $SERVER ]]; then
