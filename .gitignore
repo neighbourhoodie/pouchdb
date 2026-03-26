@@ -16,7 +16,7 @@ tests/performance-bundle.js
 packages/node_modules/pouchdb/dist/*
 pouchdb-webpack.js
 lib
-!packages/node_modules/pouchdb-adapter-websql-core/node-websql/lib
+!packages/node_modules/pouchdb-adapter-nodesqlite/node-websql/lib
 lib_unit
 src_browser/
 tests/integration/utils-bundle.js
