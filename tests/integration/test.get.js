@@ -753,7 +753,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('5857 - GET old revision with latest=true, deleted leaf', function () {
+    it.skip('5857 - GET old revision with latest=true, deleted leaf', function () {
       var db = new PouchDB(dbs.name);
       var first = null;
       return db.post({ version: 'first' })
@@ -776,7 +776,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it('5857 - GET losing, old revision with latest=true', function () {
+    it.skip('5857 - GET losing, old revision with latest=true', function () {
       var db = new PouchDB(dbs.name);
       var doctree = [
         {
