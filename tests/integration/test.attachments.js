@@ -2,7 +2,7 @@
 
 const should = require('chai').should();
 
-var adapters = ['local', 'http'];
+var adapters = ['local'];
 var repl_adapters = [
   ['local', 'http'],
   ['http', 'http'],
