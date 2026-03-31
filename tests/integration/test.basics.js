@@ -1,6 +1,6 @@
 'use strict';
 
-var adapters = ['local'];
+var adapters = ['http', 'local'];
 
 adapters.forEach(function (adapter) {
 
@@ -1058,7 +1058,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it.skip('putting is override-able', function () {
+    it('putting is override-able', function () {
       var db = new PouchDB(dbs.name);
       var called = 0;
       var plugin = {
