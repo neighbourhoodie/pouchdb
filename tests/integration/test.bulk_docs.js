@@ -161,7 +161,7 @@ adapters.forEach(function (adapter) {
       });
     });
 
-    it.skip("7829 bare rev 1- with new_edits=false", function (done) {
+    it("7829 bare rev 1- with new_edits=false", function (done) {
       var db = new PouchDB(dbs.name);
       var docs = [
         {

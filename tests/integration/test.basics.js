@@ -697,7 +697,7 @@ adapters.forEach(function (adapter) {
     if (adapter === 'local') {
       // This test fails in the http adapter, if it is used with CouchDB version <3
       // or PouchDB-Server. Which is expected.
-      it.skip('Allows _access field in documents (#8171)', function (done) {
+      it('Allows _access field in documents (#8171)', function (done) {
         var doc = {
           '_access': ['alice']
         };
