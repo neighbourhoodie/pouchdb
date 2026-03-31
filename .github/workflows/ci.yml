@@ -89,7 +89,7 @@ jobs:
       fail-fast: false
       matrix:
         couchdb: ['2.3', '3.1']
-        node: [20, 22]
+        node: [22]
         cmd:
           - npm test
           - TYPE=find PLUGINS=pouchdb-find ADAPTERS=http npm test
@@ -187,7 +187,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [20, 22]
+        node: [22]
         adapter: ['leveldb', 'memory', 'nodesqlite']
         cmd:
           - npm test
@@ -295,7 +295,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [20, 22]
+        node: [22]
         cmd:
           - CLIENT=firefox npm run test-webpack
           - AUTO_COMPACTION=true npm test
@@ -344,7 +344,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [20, 22]
+        node: [22]
         cmd:
           - TYPE=performance npm test
     runs-on: ubuntu-latest
