@@ -373,7 +373,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [24]
+        node: [22]
         adapter: ['nodesqlite']
         cmd:
           - npm test
