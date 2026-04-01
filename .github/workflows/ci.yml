@@ -89,7 +89,7 @@ jobs:
       fail-fast: false
       matrix:
         couchdb: ['2.3', '3.1']
-        node: [22]
+        node: [20, 22]
         cmd:
           - npm test
           - TYPE=find PLUGINS=pouchdb-find ADAPTERS=http npm test
@@ -187,8 +187,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [22]
-        adapter: ['leveldb', 'memory', 'nodesqlite']
+        node: [20, 22]
+        adapter: ['leveldb', 'memory']
         cmd:
           - npm test
           - TYPE=find PLUGINS=pouchdb-find npm test
@@ -295,7 +295,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [22]
+        node: [20, 22]
         cmd:
           - CLIENT=firefox npm run test-webpack
           - AUTO_COMPACTION=true npm test
@@ -344,7 +344,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node: [22]
+        node: [20, 22]
         cmd:
           - TYPE=performance npm test
     runs-on: ubuntu-latest
@@ -367,3 +367,54 @@ jobs:
       - name: Second retry
         if: steps.retry.outcome == 'failure'
         run: git reset --hard && ${{ matrix.cmd }}
+
+  nodejs-sqlite-adapter:
+    needs: lint
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [24]
+        adapter: ['nodesqlite']
+        cmd:
+          - npm test
+          - TYPE=find PLUGINS=pouchdb-find npm test
+          - TYPE=mapreduce npm test
+    runs-on: ubuntu-latest
+    services:
+      couchdb:
+        image: couchdb:3.1
+        ports:
+          - 5984:5984
+        env:
+          COUCHDB_USER: admin
+          COUCHDB_PASSWORD: password
+    env:
+      CLIENT: node
+      SERVER: couchdb-master
+      COUCH_HOST: http://admin:password@127.0.0.1:5984
+      SKIP_MIGRATION: 1
+      ADAPTERS: ${{ matrix.adapter }}
+      VIEW_ADAPTERS: nodesqlite
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Wait for CouchDB
+        run: ./bin/wait-for-couch.sh 20
+      - name: Setup CouchDB CORS
+        run: curl 'http://admin:password@127.0.0.1:5984/_node/_local/_config/cors/origins' -X PUT -d '"http://127.0.0.1:8000"'
+      - uses: ./.github/actions/install-node-package
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: ./.github/actions/build-pouchdb
+      - id: test
+        run: ${{ matrix.cmd }}
+        continue-on-error: true
+      - name: First retry
+        id: retry
+        if: steps.test.outcome == 'failure'
+        run: ${{ matrix.cmd }}
+        continue-on-error: true
+      - name: Second retry
+        if: steps.retry.outcome == 'failure'
+        run: ${{ matrix.cmd }}
