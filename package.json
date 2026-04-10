@@ -52,7 +52,7 @@
     "through2": "3.0.2",
     "uuid": "8.3.2",
     "vuvuzela": "1.0.3",
-    "@neighbourhoodie/websql": "2.0.3"
+    "@neighbourhoodie/websql": "2.0.4"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.2",
