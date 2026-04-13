@@ -16,7 +16,7 @@ fi
 
 : "${CLIENT:=node}"
 : "${COUCH_HOST:=http://127.0.0.1:5984}"
-: "${VIEW_ADAPTERS:=memory}"
+: "${VIEW_ADAPTERS:=nodesqlite}"
 export VIEW_ADAPTERS
 
 pouchdb-setup-server() {
