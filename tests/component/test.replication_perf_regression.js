@@ -40,7 +40,7 @@ describe('test.replication_perf_regression.js', function () {
     server.close(done);
   });
 
-  it.only('#5199 fix excessively long replication loop', function () {
+  it('#5199 fix excessively long replication loop', function () {
 
     this.timeout(5000);  // mocha timeout increased for this test
     var numDocs = 59;    // uneven number...using smaller number for faster test
