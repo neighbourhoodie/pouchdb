@@ -9,9 +9,29 @@
 name: PouchDB CI
 
 on:
-  push: {}
+  push: 
+    paths-ignore:
+      - '.github/ISSUE_TEMPLATE/'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+      - 'CONTRIBUTING.md'
+      - 'DISCLAIMER'
+      - 'LICENSE'
+      - 'NOTICE'
+      - 'README.md'
+      - 'TESTING.md'
+      - 'docs/**'
   pull_request:
     branches: [master]
+    paths-ignore:
+      - '.github/ISSUE_TEMPLATE/'
+      - '.github/PULL_REQUEST_TEMPLATE.md'
+      - 'CONTRIBUTING.md'
+      - 'DISCLAIMER'
+      - 'LICENSE'      
+      - 'NOTICE'
+      - 'README.md'
+      - 'TESTING.md'
+      - 'docs/**'
 
 env:
   NODE_VERSION: 22
