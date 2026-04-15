@@ -22,6 +22,11 @@ modules.forEach(function (mod) {
   var pkgPath = path.join(pkgDir, 'package.json');
   var pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 
+  // List of dependencies we _do_ actually need that are also node builtins:
+  const requiredBuiltIns = ['events'];
+
+  builtinModules = builtinModules.filter((mod) => !requiredBuiltIns.includes(mod));
+
   // for the dependencies, find all require() calls
   var srcFiles = glob.sync(path.join(pkgDir, 'lib/**/*.js'));
   var uniqDeps = uniq(srcFiles.map(function (srcFile) {
