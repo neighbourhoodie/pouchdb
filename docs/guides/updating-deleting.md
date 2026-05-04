@@ -1,6 +1,6 @@
 ---
 index: 7
-layout: guide
+layout: guide.html
 nav: Updating/deleting documents
 title: Updating and deleting documents
 sidebar: guides_nav.html

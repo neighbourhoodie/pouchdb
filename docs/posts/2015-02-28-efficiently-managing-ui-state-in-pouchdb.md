@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: Efficiently managing UI state with PouchDB
 

@@ -1,5 +1,5 @@
 ---
-layout: 2ColLeft
+layout: 2ColLeft.html
 title: About PouchDB
 sidebar: nav.html
 ---

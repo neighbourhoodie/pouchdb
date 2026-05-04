@@ -1,6 +1,6 @@
 ---
 index: 3
-layout: guide
+layout: guide.html
 title: Setting up PouchDB
 sidebar: guides_nav.html
 ---

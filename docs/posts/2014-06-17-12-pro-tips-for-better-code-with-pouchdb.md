@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: 12 pro tips for better code with PouchDB
 

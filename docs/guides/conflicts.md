@@ -1,6 +1,6 @@
 ---
 index: 11
-layout: guide
+layout: guide.html
 title: Conflicts
 sidebar: guides_nav.html
 ---

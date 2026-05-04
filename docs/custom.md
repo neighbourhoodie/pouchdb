@@ -1,5 +1,5 @@
 ---
-layout: 2ColLeft
+layout: 2ColLeft.html
 title: Custom Builds
 sidebar: nav.html
 ---

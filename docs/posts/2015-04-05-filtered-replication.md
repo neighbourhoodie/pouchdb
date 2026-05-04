@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: Filtered replication&#58; from Couch to Pouch and back
 

@@ -1,6 +1,6 @@
 ---
 index: 13
-layout: guide
+layout: guide.html
 title: Mango queries
 sidebar: guides_nav.html
 ---

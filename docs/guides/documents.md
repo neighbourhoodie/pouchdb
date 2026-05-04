@@ -1,6 +1,6 @@
 ---
 index: 5
-layout: guide
+layout: guide.html
 title: Working with documents
 sidebar: guides_nav.html
 ---

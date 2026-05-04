@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: PouchDB 3.3.0&#58; Fix Up, Look Sharp
 author: Dale Harvey

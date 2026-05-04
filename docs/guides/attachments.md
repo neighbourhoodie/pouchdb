@@ -1,6 +1,6 @@
 ---
 index: 9
-layout: guide
+layout: guide.html
 title: Working with attachments
 sidebar: guides_nav.html
 ---

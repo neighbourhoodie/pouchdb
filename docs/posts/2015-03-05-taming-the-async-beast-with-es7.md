@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: Taming the asynchronous beast with ES7
 

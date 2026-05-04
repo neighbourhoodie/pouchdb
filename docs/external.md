@@ -1,5 +1,5 @@
 ---
-layout: 2ColLeft
+layout: 2ColLeft.html
 title: Plugins and External Projects
 sidebar: nav.html
 ---

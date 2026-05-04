@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: The Pains Of Being Async At Heart
 

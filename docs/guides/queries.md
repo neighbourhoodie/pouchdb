@@ -1,6 +1,6 @@
 ---
 index: 14
-layout: guide
+layout: guide.html
 title: Map/reduce queries
 sidebar: guides_nav.html
 ---
