@@ -1,4 +1,6 @@
 const markdownIt = require('markdown-it');
+const Terser = require("terser");
+const through = require('through2');
 
 const LINEBREAK_PLACEHOLDER = '---linebreak-placeholder---';
 
@@ -9,8 +11,34 @@ module.exports = eleventyConfig => {
   eleventyConfig.setLayoutResolution(false);
   eleventyConfig.addPlugin(require("@11ty/eleventy-plugin-syntaxhighlight"));
 
-  eleventyConfig.addPassthroughCopy('asf.md');
-  eleventyConfig.addPassthroughCopy('static');
+  eleventyConfig.addPassthroughCopy('./docs/asf.md');
+  eleventyConfig.addPassthroughCopy('./docs/static');
+  eleventyConfig.addPassthroughCopy(
+    {
+      "./docs/src/code.js": "static/js/code.min.js",
+    },
+    {
+      transform: function(src, dest, stats) {
+        let buffer = '';
+
+        return through(
+          function (chunk, enc, done) {
+            buffer += chunk.toString();
+            done();
+          },
+          function (done) {
+            // INFO: this usage is very specific to the pinned Terser 4.8.0,
+            // if Terser is ever updated, this will break.
+            const result = Terser.minify(buffer)
+            if (result.error) {
+              console.log('Error minifying code.js:', result.error)
+            }
+            done(null, result.code)
+          }
+        );
+      }
+    }
+  );
 
   eleventyConfig.setLiquidOptions({
     jekyllInclude: true,
