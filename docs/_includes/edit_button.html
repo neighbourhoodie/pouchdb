@@ -1,4 +1,4 @@
-{% assign pagePath = page.inputPath | replace: "./", "" %}
+{% assign pagePath = page.inputPath | replace: "./", "" | replace: "docs/", "" %}
 <a
   data-toggle="tooltip"
   data-placement="top"
