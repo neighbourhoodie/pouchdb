@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: default.html
 title: PouchDB, the JavaScript Database that Syncs!
 ---
 <div class="band band-inverse">

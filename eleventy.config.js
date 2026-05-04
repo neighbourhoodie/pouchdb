@@ -4,6 +4,9 @@ const LINEBREAK_PLACEHOLDER = '---linebreak-placeholder---';
 
 module.exports = eleventyConfig => {
   process.env.TZ = 'UTC';
+  // Turn off extensionless layouts
+  // https://www.11ty.dev/docs/layouts/#omitting-the-layouts-file-extension
+  eleventyConfig.setLayoutResolution(false);
   eleventyConfig.addPlugin(require("@11ty/eleventy-plugin-syntaxhighlight"));
 
   eleventyConfig.addPassthroughCopy('asf.md');
@@ -74,8 +77,8 @@ module.exports = eleventyConfig => {
 
   return {
     dir: {
-      includes: '_includes',
-      layouts: '_layouts',
+      input: './docs',
+      output: "docs/_site"
     },
   };
 };

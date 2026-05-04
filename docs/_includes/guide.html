@@ -1,10 +1,10 @@
 ---
-layout: 2ColLeft
+layout: 2ColLeft.html
 ---
 
 {{ content }}
 
-{% assign guides = collections.guides | sort: 'index' %}
+{% assign guides = collections.guides | sort: 'data.index' %}
 {% for guide in guides %}
     {% if title == guide.data.title %}
         {% assign prev = guide.data.index | minus: 2 %}

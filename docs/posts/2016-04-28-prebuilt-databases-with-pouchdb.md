@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: Prebuilt databases with PouchDB
 author: Nolan Lawson

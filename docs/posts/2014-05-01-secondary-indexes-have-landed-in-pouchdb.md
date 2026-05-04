@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: Secondary indexes have landed in PouchDB
 

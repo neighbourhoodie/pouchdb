@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post.html
 
 title: PouchDB 3.4.0&#58; Better late than never
 author: Dale Harvey

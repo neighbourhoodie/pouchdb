@@ -1,6 +1,6 @@
 ---
 index: 15
-layout: guide
+layout: guide.html
 title: Compacting and destroying
 sidebar: guides_nav.html
 ---

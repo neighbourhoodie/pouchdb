@@ -1,6 +1,6 @@
 ---
 index: 16
-layout: guide
+layout: guide.html
 title: Local documents
 sidebar: guides_nav.html
 ---

@@ -1,6 +1,6 @@
 ---
 index: 2
-layout: guide
+layout: guide.html
 title: Setting up CouchDB
 sidebar: guides_nav.html
 ---

@@ -1,6 +1,6 @@
 ---
 index: 6
-layout: guide
+layout: guide.html
 title: Asynchronous code
 sidebar: guides_nav.html
 ---

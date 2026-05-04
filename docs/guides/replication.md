@@ -1,6 +1,6 @@
 ---
 index: 10
-layout: guide
+layout: guide.html
 title: Replication
 sidebar: guides_nav.html
 ---
