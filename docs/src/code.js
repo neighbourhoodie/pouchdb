@@ -1,4 +1,4 @@
-function codeWrap(){
+function codeWrap() {
   "use strict";
 
   var DEFAULT_TYPE = 'promise';
@@ -7,10 +7,10 @@ function codeWrap(){
 
   var codeIds =
     $codes
-      .map(function(div){
-          return div.attributes["data-code-id"].value
+      .map(function (div) {
+          return div.attributes["data-code-id"].value;
       })
-      .filter(function(item, index, inputArray){
+      .filter(function (item, index, inputArray) {
           // Each code block has multiple versions so let's only grab one.
           return inputArray.indexOf(item) === index;
       });
@@ -18,7 +18,7 @@ function codeWrap(){
   wrap();
   setAll();
 
-  $('[data-code-tablist] [href]').on('click', function(e){
+  $('[data-code-tablist] [href]').on('click', function (e) {
     var href = $(this).attr('href');
 
     setAll(href.replace('#', ''));
@@ -28,7 +28,7 @@ function codeWrap(){
     e.preventDefault();
   });
 
-  function wrap(){
+  function wrap() {
     var codeTpl = '' +
       '<ul class="nav nav-tabs nav-code" data-code-tablist="{{codeId}}">' +
         '<li>' +
@@ -43,10 +43,10 @@ function codeWrap(){
       '</ul>' +
       '<div class="tab-content">{{tabPanes}}</div>';
     codeIds
-      .forEach(function(id){
+      .forEach(function (id) {
         var $code = $("[data-code-id='" + id + "']");
 
-        var paneHtml = $code.get().map(function(div){
+        var paneHtml = $code.get().map(function (div) {
           return div.outerHTML;
         }).join('');
 
@@ -62,16 +62,16 @@ function codeWrap(){
     $('[data-code-hide]').addClass('hide');
   }
 
-  function setAll(type){
+  function setAll(type) {
 
     // We default to callback so no need to do anything the first time.
     var firstTime = !localStorage.getItem('codeStyle');
-    if(firstTime){
+    if (firstTime) {
       localStorage.setItem('codeStyle', DEFAULT_TYPE);
     }
 
     type = type || localStorage.getItem('codeStyle');
-    if(typeof type === "undefined" || type === null) {
+    if (typeof type === "undefined" || type === null) {
       return;
     }
 
@@ -86,22 +86,22 @@ function codeWrap(){
 
 
   var setHeights = [];
-  function setEqualHeights(){
-    if(setHeights.length > 0){
+  function setEqualHeights() {
+    if (setHeights.length > 0) {
       return;
     }
     codeIds
-      .forEach(function(id){
+      .forEach(function (id) {
         var $code = $("[data-code-id='" + id + "']");
 
         var paneHeight = 0;
 
-        $code.get().forEach(function(div){
+        $code.get().forEach(function (div) {
           var originalDisplay = div.style.display;
           div.style.display = 'block';
           var clientHeight = div.clientHeight;
           div.style.display = originalDisplay;
-          if(clientHeight > paneHeight){
+          if (clientHeight > paneHeight) {
             paneHeight = clientHeight;
           }
         });
@@ -113,7 +113,7 @@ function codeWrap(){
 codeWrap();
 
 function addCodeCopyButtons() {
-  if (!navigator.clipboard.writeText) return;
+  if (!navigator.clipboard.writeText) {return;}
 
   function copyCodeFor(codeElement) {
     return () => {
