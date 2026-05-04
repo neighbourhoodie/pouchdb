@@ -1,11 +1,10 @@
 const markdownIt = require('markdown-it');
-const Prism = require('prismjs');
-const loadLanguages = require('prismjs/components/');
 
 const LINEBREAK_PLACEHOLDER = '---linebreak-placeholder---';
 
 module.exports = eleventyConfig => {
   process.env.TZ = 'UTC';
+  eleventyConfig.addPlugin(require("@11ty/eleventy-plugin-syntaxhighlight"));
 
   eleventyConfig.addPassthroughCopy('asf.md');
   eleventyConfig.addPassthroughCopy('static');
@@ -56,14 +55,16 @@ module.exports = eleventyConfig => {
     return this.liquid.parseAndRender(content, this.context);
   });
 
-  const renderMarkdown = initMarkdown();
+  const md = markdownIt({
+    html: true,
+  });
+
+  eleventyConfig.addFilter('inlinemarkdown', content => md.renderInline(content));
   // Re-defined markdown-it lib to prevent eleventy messing with internals.
   // See: https://github.com/11ty/eleventy/issues/2438
-  eleventyConfig.setLibrary('md', { render:renderMarkdown });
-  eleventyConfig.addFilter('markdown', renderMarkdown);
-  eleventyConfig.addPairedShortcode('markdown', renderMarkdown);
-
-  eleventyConfig.addPairedShortcode('highlight', wrapCode);
+  eleventyConfig.setLibrary('md', md);
+  eleventyConfig.addFilter('markdown',  content => md.render(content));
+  eleventyConfig.addPairedShortcode('markdown',  content => md.render(content));
 
   eleventyConfig.addTransform('revert-linebreak-markers', function(content) {
     console.log('revert-linebreak-markers', this.outputPath);
@@ -78,43 +79,3 @@ module.exports = eleventyConfig => {
     },
   };
 };
-
-// Ensure consistent code style across:
-// * markdown indented code blocks
-// * markdown "fenced" code blocks
-// * liquid {% highlight ... %} code blocks
-function initMarkdown() {
-  const md = markdownIt({
-    html: true,
-  });
-
-  // Indented code blocks seem to introduce parsing differences across
-  // markdownversions, and inconsistencies with whitespace introduced
-  // by liquid templates.  The simplest option is to disable them, and
-  // require code "fences" (```) instead.
-  md.disable('code');
-
-  md.renderer.rules.fence = (tokens, idx, options, env, slf) => {
-    const { content, info } = tokens[idx];
-    const lang = info ? info.trim().split(/\s/)[0] : '';
-
-    return wrapCode(content, lang);
-  };
-
-  return md.render.bind(md);
-}
-
-function wrapCode(code, lang) {
-  let html = code.trim();
-
-  if(lang) {
-    loadLanguages([lang]);
-    html = Prism.highlight(html, Prism.languages[lang], lang);
-  }
-
-  // prevent markdown interpreter from converting multiple
-  // linebreaks in code examples into <p>...</p>
-  html = html.replaceAll(/\n(?=\n)/g, `\n${LINEBREAK_PLACEHOLDER}`);
-
-  return `<figure class="highlight"><pre data-copybutton><code class="language-${lang}">${html}</code></pre></figure>`;
-}

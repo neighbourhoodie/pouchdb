@@ -22,6 +22,8 @@
     "release": "./bin/release.sh",
     "publish-site": "./bin/publish-site.sh",
     "build-site": "node ./bin/build-site.js",
+    "build:less": "lessc docs/src/less/pouchdb/pouchdb.less docs/static/css/pouchdb.css",
+    "build11": "npm run build:less && eleventy",
     "test-coverage": "./bin/test-coverage.sh",
     "coverage": "COVERAGE=1 SERVER=pouchdb-server POUCHDB_SERVER_FLAGS=--in-memory PLUGINS=pouchdb-find ./bin/test-coverage.sh",
     "build-test": "npm run build-test-utils && npm run build-perf",
@@ -36,6 +38,8 @@
     "url": "https://github.com/apache/pouchdb.git"
   },
   "dependencies": {
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "@neighbourhoodie/websql": "2.0.4",
     "double-ended-queue": "2.1.0-0",
     "fetch-cookie": "2.2.0",
     "level": "6.0.1",
@@ -51,8 +55,7 @@
     "spark-md5": "3.0.2",
     "through2": "3.0.2",
     "uuid": "8.3.2",
-    "vuvuzela": "1.0.3",
-    "@neighbourhoodie/websql": "2.0.4"
+    "vuvuzela": "1.0.3"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.1.2",
