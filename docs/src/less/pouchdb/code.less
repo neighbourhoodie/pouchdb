@@ -7,6 +7,8 @@ code {
 pre {
   padding-left: @pre-padding;
   padding-right: @pre-padding;
+  background-color:@dry-slate;
+  color:@soft-green 
 }
 
 @duck-egg: #66d9ef;
@@ -16,25 +18,36 @@ pre {
 @pinky: #f92672;
 @soft-green: #6eca97;
 @dry-slate: #3f3f3f;
+@mud: #75715e;
 @whitish: #f8f8f2;
 
-.language-bash { background-color:@dry-slate; color:@whitish }
 .language-bash .token.parameter.variable { color:@pinky }
 
-.language-html { background-color:@dry-slate; color:@soft-green }
-.language-js,.language-javascript { background-color:@dry-slate; color:@soft-green }
+.language-html { color:@soft-green }
+.language-html {
+  color: @whitish;
+  .tag,
+  .tag .punctuation {
+    color: #f92672;
+  }
+}
+.language-js,.language-javascript { color:@soft-green }
 .token.attr-name   { color:@martian-green }
 .token.attr-value  { color:@mustard }
-.token.tag .token.attr-value .attr-equals  { color:@martian-green }
+.token.boolean  { color:@duck-egg }
 .token.tag .token.attr-value .token.punctuation  { color:@mustard }
 .token.class-name  { color:@soft-green }
+.token.comment  { color:@mud }
 .token.function    { color:@soft-green }
 .token.keyword     { color:@duck-egg }
 .token.number      { color:@purple }
 .token.operator    { color:@pinky }
 .token.property + .token.operator { color:@whitish }
-.token.property    { color:@martian-green }
+.token.parameter    { color:@soft-green }
+.token.property    { color:@mustard }
 .token.punctuation { color:@whitish }
 .token.string      { color:@mustard }
 .token.tag         { color:@pinky }
 .token.tag .token.punctuation { color:@pinky }
+
+.token.tag .token.attr-value .attr-equals, .token.attr-name, .token.attr-equals, .token.literal-property, .token.function-variable  { color:@martian-green }
