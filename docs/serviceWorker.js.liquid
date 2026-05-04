@@ -78,18 +78,21 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function (event) {
-  // Try the cache, if it's not in there try the network, then cache that response
-  // if that network request fails show the offline.html page.
-  event.respondWith(
-    caches.open(newCacheName).then(function (cache) {
-      return cache.match(event.request).then(function (response) {
-        return response || fetch(event.request).then(function (response) {
-          cache.put(event.request, response.clone());
-          return response;
-        }).catch(function () {
-          return cache.match('/offline.html');
+  // Ignore requests from browser extensions etc
+  if ((event.request.url.indexOf('http') === 0)) {
+    // Try the cache, if it's not in there try the network, then cache that response
+    // if that network request fails show the offline.html page.
+    event.respondWith(
+      caches.open(newCacheName).then(function (cache) {
+        return cache.match(event.request).then(function (response) {
+          return response || fetch(event.request).then(function (response) {
+            cache.put(event.request, response.clone());
+            return response;
+          }).catch(function () {
+            return cache.match('/offline.html');
+          });
         });
-      });
-   })
-  );
+    })
+    );
+  }
 });
