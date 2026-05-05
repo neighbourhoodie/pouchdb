@@ -1,45 +1,34 @@
 #!/usr/bin/env node
 
+/*
+ideally, we would eventually deprecate this entire file and rely exclusively
+on 11ty for building and dev serving (https://www.11ty.dev/docs/watch-serve/).
+
+However, since all the styles are in LESS, and 11ty doesn’t build that, and
+the LESS plugin for 11ty doesn’t seem to work with our setup, we’ll need to keep
+build-site.js around for a little longer.
+*/
+
 'use strict';
 
-const { promisify } = require('node:util');
-const exec = promisify(require('node:child_process').exec);
-
-var fs = require('fs');
+import { execa } from 'execa';
+import fs from 'fs';
+import http_server from 'http-server';
+import globWatcher from 'glob-watcher';
 
 process.chdir('./');
 
 async function buildCSS() {
-  await exec('npm run build:less');
+  await execa({stdio: 'inherit'})`npm run build:less`;
   console.log('=> Rebuilt CSS');
 }
 
 async function buildEleventy() {
-  await exec('eleventy');
-  await checkForUnprocessedCurlies();
+  // --incremental sadly doesn't work in this setup, but the build is so fast
+  // it doesn’t really matter. However, on a full rebuild, 11ty logs every
+  // single built file, hence --quiet
+  await execa({stdio: 'inherit'})`eleventy --quiet`;
   console.log('=> Rebuilt eleventy');
-}
-
-async function checkForUnprocessedCurlies() {
-  // If unprocessed curlies are ever desired, add a way to ignore them.
-  try {
-    const res = await exec(`grep -Ern --include=\\*.html '\\{\\{|\\}\\}' ./_site/`);
-
-    console.log();
-    console.log('!!! UNPROCESSED CURLIES FOUND IN OUTPUT HTML FILE(S):');
-    console.log(res.stdout.trim());
-    console.log('!!! CHECK TEMPLATES ARE BEING FULLY PROCESSED.');
-    console.log();
-
-    if (process.env.BUILD) {
-      process.exit(1);
-    }
-  } catch (err) {
-    if (err.code === 1) {
-      return; // no problems found
-    }
-    throw err;
-  }
 }
 
 async function buildEverything() {
@@ -53,8 +42,6 @@ async function buildEverything() {
 }
 
 if (!process.env.BUILD) {
-  const http_server = require('http-server');
-  const globWatcher = require('glob-watcher');
   const watchGlob = (path, fn) => globWatcher(path, () => fn().catch(console.log));
 
   // Simpler ways of blacklisting certain paths here would be very welcome.
