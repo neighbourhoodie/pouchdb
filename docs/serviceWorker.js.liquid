@@ -10,7 +10,7 @@ var newCacheName = 'pouchdb-assets-cache-v{{ site.time }}';
 
 var criticalAssets = [
   '/offline.html',
-  '/static/css/pouchdb.css',
+  '/static/css/pouchdb.min.css',
 ];
 
 {%- assign pages = collections.pages | where_exp: "page", "page.url != '/manifest.appcache'" -%}
