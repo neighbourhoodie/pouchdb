@@ -60,8 +60,6 @@ We recommend avoiding Cordova SQLite unless you are hitting the 50MB storage lim
 require native or preloaded access to the database files, or there's some other reason to go native.
 The built-in IndexedDB adapter is nearly always more performant and stable.
 
-{% include alert/end.html%}
-
 ### Browser adapter plugins
 
 PouchDB also offers separate browser plugins that use backends other than IndexedDB. These plugins fully pass the PouchDB test suite and are rigorously tested in our CI process.
@@ -130,7 +128,7 @@ The LocalStorage plugin should be considered highly experimental, and the underl
 
 Just as in the browser, you can also create a pure in-memory PouchDB:
 
-```
+```bash
 $ npm install pouchdb-adapter-memory
 ```
 

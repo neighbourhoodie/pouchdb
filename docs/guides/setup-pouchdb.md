@@ -20,7 +20,7 @@ Download the latest **pouchdb-{{site.version}}.min.js** from the big green butto
 
 Run this on the command line:
 
-```
+```bash
 $ bower install pouchdb
 ```
 
@@ -34,7 +34,7 @@ Then in your `index.html`:
 
 Run this on the command line:
 
-```
+```bash
 $ npm install pouchdb
 ```
 
@@ -56,7 +56,7 @@ Add this to your `index.html`:
 
 Run this on the command line:
 
-```
+```bash
 $ npm install pouchdb
 ```
 
@@ -70,7 +70,7 @@ const PouchDB = require('pouchdb');
 
 Run this on the command line:
 
-```
+```bash
 $ npm install pouchdb @types/pouchdb
 ```
 

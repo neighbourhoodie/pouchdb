@@ -4,17 +4,21 @@ title: Common Errors
 sidebar: nav.html
 ---
 
-{% include anchor.html class="h3" title="No 'Access-Control-Allow-Origin' header" hash="no_access_control_allow_origin_header" %}
+{% include anchor.html class="h3" title="No `Access-Control-Allow-Origin` header" hash="no_access_control_allow_origin_header" %}
 
 If you see the error:
 
-> XMLHttpRequest cannot load [...]
-> No 'Access-Control-Allow-Origin' header is present on the requested resource.
-> Origin [...] is therefore not allowed access.
+```bash
+XMLHttpRequest cannot load [...]
+No 'Access-Control-Allow-Origin' header is present on the requested resource.
+Origin [...] is therefore not allowed access.
+```
 
 or this one:
 
-> Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://[couchDBIP]:[couchDBPort]/[dbname]/?_nonce=[request hash]. This can be fixed by moving the resource to the same domain or enabling CORS
+```bash
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://[couchDBIP]:[couchDBPort]/[dbname]/?_nonce=[request hash]. This can be fixed by moving the resource to the same domain or enabling CORS
+```
 
 it's because you need to enable [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) on CouchDB/Cloudant/whatever you're using. Otherwise, your scripts can only access the server database if they're served from the same origin &#8212; the protocol (ex: _http://_, _https://_), domain, and port number must match.
 
@@ -77,7 +81,7 @@ There is a limit of one database per app in some versions of the Android WebView
 
 If you see this warning:
 
-```
+```bash
 (node) warning: possible EventEmitter memory leak detected. 11 listeners added.
 Use emitter.setMaxListeners() to increase limit.
 ```
@@ -136,7 +140,7 @@ In Firefox, PouchDB instead throws a [`No valid adapter found`](#no_valid_adapte
 
 If you ever see:
 
-```
+```bash
 Uncaught DataCloneError:
   Failed to execute 'put' on 'IDBObjectStore':
   An object could not be cloned.
@@ -144,7 +148,7 @@ Uncaught DataCloneError:
 
 Or:
 
-```
+```bash
 DataCloneError: The object could not be cloned.
 ```
 
@@ -233,10 +237,7 @@ Generally, reducing these options that replicating the database down will take m
 {% include alert/start.html variant="info" %}
 
 This issue has been found on OpenVZ systems, but other Hypervisors might also be affected. See
-<a
-  href="http://blog.aplikacja.info/2010/01/105-no-buffer-space-available-on-openvz-vps/"
-  target="_blank"
->http://blog.aplikacja.info/2010/01/105-no-buffer-space-available-on-openvz-vps/</a>
+[http://blog.aplikacja.info/105_no_buffer_space_available_on_openvz_vps.html](http://blog.aplikacja.info/105_no_buffer_space_available_on_openvz_vps.html)
 on how to diagnose this issue.
 
 {% include alert/end.html %}
@@ -252,7 +253,7 @@ PouchDB may have various dependencies that may not play nicely with WebPack. Her
 
 If you run into the following error (or similar):
 
-```sh
+```bash
 ERROR in ./~/pouchdb/~/levelup/package.json
 Module parse failed: /path/to/node_modules/pouchdb/node_modules/levelup/package.json Line 2: Unexpected token :
 You may need an appropriate loader to handle this file type.
@@ -290,7 +291,7 @@ Minimal code to reproduce this can be found [here](https://gist.github.com/Treor
 
 Sometimes `npm install pouchdb` fails on windows, when no prebuilt binary is available. The error looks similar to this:
 
-```sh
+```bash
 C:\XXX\node_modules\project_name>if not defined npm_config_node_gyp (node "C:\XXX\node_modules\npm\bin\node-gyp-bin\....\node_modules\node-gyp\bin\node-gyp.js" rebuild ) else (node "" rebuild )
 gyp ERR! configure error
 gyp ERR! stack Error: Can't find Python executable "python", you can set the PYTHON env variable.
@@ -299,7 +300,7 @@ gyp ERR! stack at PythonFinder.failNoPython (C:\XXX\nodejs\node_modules\npm\node
 
 or something like this
 
-```sh
+```bash
 gyp ERR! configure error
 npm ERR! code ELIFECYCLE
 npm ERR! errno 1
