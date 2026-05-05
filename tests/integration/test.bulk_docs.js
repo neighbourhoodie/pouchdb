@@ -332,11 +332,11 @@ adapters.forEach((adapter) => {
       await db.bulkDocs([doc]);
     });
 
-    it('#2935 new_edits=false with single unauthorized', async () => {
+    it('#2935 new_edits=false with single unauthorized', function (done) {
 
-      testUtils.isCouchDB(async (isCouchDB) => {
+      testUtils.isCouchDB(function (isCouchDB) {
         if (adapter !== 'http' || !isCouchDB) {
-          return;
+          return done();
         }
 
         const ddoc = {
@@ -350,38 +350,41 @@ adapters.forEach((adapter) => {
 
         const db = new PouchDB(dbs.name);
 
-        await db.put(ddoc);
-        const res = await db.bulkDocs({
-          docs: [
-            {
-              '_id': 'doc0',
-              '_rev': '1-x',
-              'foo': 'bar',
-              '_revisions': {
-                'start': 1,
-                'ids': ['x']
+        db.put(ddoc).then(() => {
+          return db.bulkDocs({
+            docs: [
+              {
+                '_id': 'doc0',
+                '_rev': '1-x',
+                'foo': 'bar',
+                '_revisions': {
+                  'start': 1,
+                  'ids': ['x']
+                }
+              }, {
+                '_id': 'doc1',
+                '_rev': '1-x',
+                '_revisions': {
+                  'start': 1,
+                  'ids': ['x']
+                }
+              }, {
+                '_id': 'doc2',
+                '_rev': '1-x',
+                'foo': 'bar',
+                '_revisions': {
+                  'start': 1,
+                  'ids': ['x']
+                }
               }
-            }, {
-              '_id': 'doc1',
-              '_rev': '1-x',
-              '_revisions': {
-                'start': 1,
-                'ids': ['x']
-              }
-            }, {
-              '_id': 'doc2',
-              '_rev': '1-x',
-              'foo': 'bar',
-              '_revisions': {
-                'start': 1,
-                'ids': ['x']
-              }
-            }
-          ]
-        }, {new_edits: false});
-        res.should.have.length(1);
-        should.exist(res[0].error);
-        res[0].id.should.equal('doc1');
+            ]
+          }, {new_edits: false});
+        }).then((res) => {
+          res.should.have.length(1);
+          should.exist(res[0].error);
+          res[0].id.should.equal('doc1');
+          done();
+        }).catch(done);
       });
     });
 

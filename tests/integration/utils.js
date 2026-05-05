@@ -165,8 +165,8 @@ const parseHostWithCreds = (host) => {
   return { url, options };
 };
 
-testUtils.isCouchDB = async (cb) => {
-  const {url, options} = parseHostWithCreds(testUtils.couchHost());
+testUtils.isCouchDB = function (cb) {
+  const { url, options } = parseHostWithCreds(testUtils.couchHost());
   PouchDB.fetch(url, options).then(function (response) {
     return response.json();
   }).then(function (res) {
