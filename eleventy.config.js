@@ -2,8 +2,6 @@ const markdownIt = require('markdown-it');
 const Terser = require("terser");
 const through = require('through2');
 
-const LINEBREAK_PLACEHOLDER = '---linebreak-placeholder---';
-
 module.exports = eleventyConfig => {
   process.env.TZ = 'UTC';
   // Turn off extensionless layouts
@@ -13,12 +11,13 @@ module.exports = eleventyConfig => {
 
   eleventyConfig.addPassthroughCopy('./docs/asf.md');
   eleventyConfig.addPassthroughCopy('./docs/static');
+  // Copy and minify src/code.js to _site/static/js
   eleventyConfig.addPassthroughCopy(
     {
       "./docs/src/code.js": "static/js/code.min.js",
     },
     {
-      transform: function(src, dest, stats) {
+      transform: function () {
         let buffer = '';
 
         return through(
@@ -29,11 +28,11 @@ module.exports = eleventyConfig => {
           function (done) {
             // INFO: this usage is very specific to the pinned Terser 4.8.0,
             // if Terser is ever updated, this will break.
-            const result = Terser.minify(buffer)
+            const result = Terser.minify(buffer);
             if (result.error) {
-              console.log('Error minifying code.js:', result.error)
+              console.log('Error minifying code.js:', result.error);
             }
-            done(null, result.code)
+            done(null, result.code);
           }
         );
       }
@@ -73,15 +72,15 @@ module.exports = eleventyConfig => {
         .sort((a, b) => b.date - a.date || b.inputPath.localeCompare(a.inputPath));
   });
 
-  eleventyConfig.addFilter('first_paragraph', function(content) {
+  eleventyConfig.addFilter('first_paragraph', function (content) {
     const marker = '</p>';
     const idx = content.indexOf(marker);
-    if(idx === -1) return content;
+    if (idx === -1) {return content;}
     return content.substring(0, idx + marker.length);
   });
 
-  eleventyConfig.addFilter('liquid', function(content) {
-    if(!this.liquid) return content;
+  eleventyConfig.addFilter('liquid', function (content) {
+    if (!this.liquid) {return content;}
 
     return this.liquid.parseAndRender(content, this.context);
   });
@@ -96,12 +95,6 @@ module.exports = eleventyConfig => {
   eleventyConfig.setLibrary('md', md);
   eleventyConfig.addFilter('markdown',  content => md.render(content));
   eleventyConfig.addPairedShortcode('markdown',  content => md.render(content));
-
-  eleventyConfig.addTransform('revert-linebreak-markers', function(content) {
-    console.log('revert-linebreak-markers', this.outputPath);
-    if(!this.outputPath?.endsWith('.html')) return content;
-    return content.replaceAll(new RegExp(`^${LINEBREAK_PLACEHOLDER}$`, 'gm'), '');
-  });
 
   return {
     dir: {
