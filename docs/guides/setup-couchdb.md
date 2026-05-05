@@ -11,7 +11,7 @@ One of the main benefits of learning PouchDB is that it's exactly the same as Co
 
 For instance, in CouchDB you would fetch all documents using:
 
-```
+```bash
 /db/_all_docs?include_docs=true
 ```
 
@@ -31,7 +31,7 @@ If you are on a Debian flavor of Linux (Ubuntu, Mint, etc.), you can install Cou
 
 First, [enable the CouchDB package repository](https://docs.couchdb.org/en/stable/install/unix.html#enabling-the-apache-couchdb-package-repository) on your machine:
 
-```
+```bash
 $ sudo apt update && sudo apt install -y curl apt-transport-https gnupg
 $ curl https://couchdb.apache.org/repo/keys.asc | gpg --dearmor | sudo tee /usr/share/keyrings/couchdb-archive-keyring.gpg >/dev/null 2>&1
 source /etc/os-release
@@ -41,7 +41,7 @@ $ echo "deb [signed-by=/usr/share/keyrings/couchdb-archive-keyring.gpg] https://
 
 Next, update your package lists and install CouchDB:
 
-```
+```bash
 $ sudo apt-get update
 $ sudo apt-get install -y couchdb
 ```
@@ -52,7 +52,7 @@ If you are on a Mac or Windows you should install the official binaries from [th
 
 If you have trouble installing CouchDB, you can also install PouchDB Server, which is a drop-in replacement for CouchDB that uses PouchDB under the hood:
 
-```
+```bash
 $ npm install -g pouchdb-server
 $ pouchdb-server --port 5984
 ```
@@ -63,7 +63,7 @@ PouchDB Server is currently experimental, and we do not recommend it for product
 
 Once CouchDB is installed, it should be running at `localhost:5984`. To verify, you can open up your terminal and type
 
-```
+```bash
 $ curl localhost:5984
 ```
 
@@ -86,13 +86,13 @@ If you see a screen like the following, then you are ready to rock and roll with
 
 Enabling CORS is easy. Just install this handy script:
 
-```sh
+```bash
 $ npm install -g add-cors-to-couchdb
 ```
 
 And run it:
 
-```sh
+```bash
 $ add-cors-to-couchdb
 ```
 

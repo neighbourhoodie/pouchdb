@@ -293,7 +293,7 @@ Android adapter with a native Java interface to PouchDB.
 
 Shims and utils for working with binary Blobs in the browser.
 
-#### [Pouchy] (https://www.npmjs.com/package/pouchy)
+#### [Pouchy](https://www.npmjs.com/package/pouchy)
 
 PouchDB sugar API. ([Github](https://github.com/cdaringe/pouchy))
 

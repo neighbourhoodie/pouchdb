@@ -22,6 +22,9 @@ pre {
 @whitish: #f8f8f2;
 
 .language-bash .token.parameter.variable { color:@pinky }
+.language-bash {
+  color: @whitish;
+}
 
 .language-html { color:@soft-green }
 .language-html {
@@ -43,11 +46,11 @@ pre {
 .token.number      { color:@purple }
 .token.operator    { color:@pinky }
 .token.property + .token.operator { color:@whitish }
-.token.parameter    { color:@soft-green }
 .token.property    { color:@mustard }
+.token.parameter, .token.literal-property    { color:@soft-green }
 .token.punctuation { color:@whitish }
 .token.string      { color:@mustard }
 .token.tag         { color:@pinky }
 .token.tag .token.punctuation { color:@pinky }
 
-.token.tag .token.attr-value .attr-equals, .token.attr-name, .token.attr-equals, .token.literal-property, .token.function-variable  { color:@martian-green }
+.token.tag .token.attr-value .attr-equals, .token.attr-name, .token.attr-equals, .token.function-variable  { color:@martian-green }

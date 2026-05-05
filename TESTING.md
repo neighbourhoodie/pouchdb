@@ -260,7 +260,7 @@ Sets the number of iterations each test uses by default.
 
 To run tests in the browser, you first have to install playwright:
 
-```shell
+```bash
 npx playwright install
 ```
 
@@ -349,7 +349,7 @@ Your CouchDB will most likely then run at `http://127.0.0.1:5984`. All you need 
 
 1. In the [CouchDB admin UI](http://127.0.0.1:5984/_utils), click on `Configuration` -> `CORS`. 
 2. Via cURL (`_local` is the node name in single-node databases, which your local dev CouchDB probably is):
-   ```sh
+   ```bash
    curl 'http://admin:password@127.0.0.1:5984/_node/_local/_config/cors/origins' -X PUT -d '"http://127.0.0.1:8000"'
    ```
 3. There’s also an older [npm package](https://github.com/pouchdb/add-cors-to-couchdb) to help you do this porgrammatically.
@@ -358,7 +358,7 @@ Your CouchDB will most likely then run at `http://127.0.0.1:5984`. All you need 
 
 If you’re modifying the test utils (`/tests/integration/utils.js` etc.) or adding logs to them, you need to rebuild these before running your tests again, eg.:
 
-```sh
+```bash
 $ npm run build && CLIENT=firefox npm test
 ```
 
@@ -366,7 +366,7 @@ $ npm run build && CLIENT=firefox npm test
 
 If you regularly run into random timeouts, please re-read the top of this file and set the `COUCH_HOST` env var when running tests or the dev server, eg.:
 
-```sh
+```bash
 $ CLIENT=firefox COUCH_HOST=http://admin:admin@127.0.0.1:5984 npm test
 ```
 
