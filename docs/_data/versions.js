@@ -8,7 +8,7 @@ Gives us globally available info about PouchDB versions:
 */
 
 module.exports = () => {
-  const versions = ["7.0.0", "8.0.0", "9.0.0"];
+  const versions = ["7.3.0", "8.0.0", "9.0.0"];
   return {
     all: versions,
     stable: versions.sort((a, b) =>
