@@ -2,12 +2,21 @@
 layout: default.html
 ---
 
+{% if sidebar == "./nav.html" %}
+  {% assign sidebarIncludePath = "." | append: versionURLPrefix | append: '/nav.html' %}
+  {% unless version %}
+    {% assign sidebarIncludePath = "./version/" | append: versions.stable | append: '/nav.html' %}
+  {% endunless %}
+{% else %}
+  {% assign sidebarIncludePath = sidebar %}
+{% endif %}
+
 <article class="band">
   <div class="container">
     <div class="row">
         <div id="sidebar" class="col-sm-3 nav-sidebar-wrapper">
           <ul class="nav nav-silent nav-sidebar" role="navigation">
-            {% include {{sidebar}} %}
+            {% include {{sidebarIncludePath}} %}
           </ul>
         </div>
 
