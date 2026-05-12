@@ -31,7 +31,7 @@ describe('migration', () => {
 
   let skip = false;
 
-  before(() => {
+  before(function () {
     const isNodeWebkit = typeof window !== 'undefined' &&
       typeof process !== 'undefined';
 
