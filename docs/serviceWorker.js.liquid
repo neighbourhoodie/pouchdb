@@ -9,27 +9,27 @@ permalink: /serviceWorker.js
 var newCacheName = 'pouchdb-assets-cache-v{{ site.time }}';
 
 var criticalAssets = [
-  '/offline.html',
-  '/static/css/pouchdb.min.css',
+  '{{ site.baseurl }}/offline.html',
+  '{{ site.baseurl }}/static/css/pouchdb.min.css',
 ];
 
 {%- assign pages = collections.pages | where_exp: "page", "page.url != '/manifest.appcache'" -%}
 {% assign guides = collections.guides %}
 
 var pages = [
-  {% for page in pages %}'{{ page.url | replace:'index.html','' }}',
-  {% endfor %}{% for page in guides %}'{{ page.url | replace:'index.html','' }}'{% unless forloop.last %},{% endunless %}
+  {% for page in pages %}'{{ site.baseurl }}{{ page.url | replace:'index.html','' }}',
+  {% endfor %}{% for page in guides %}'{{ site.baseurl }}{{ page.url | replace:'index.html','' }}'{% unless forloop.last %},{% endunless %}
   {% endfor %}];
 
 var blogPosts = [{% for page in collections.posts %}
-  '{{ page.url | replace:'index.html','' }}',{% endfor %}
+  '{{ site.baseurl }}{{ page.url | replace:'index.html','' }}',{% endfor %}
 ];
 
 // Only cache the first blog page
 var nonCriticalAssets =
   [
-    '/static/favicon.ico',
-    '/static/js/code.min.js',
+    '{{ site.baseurl }}/static/favicon.ico',
+    '{{ site.baseurl }}/static/js/code.min.js',
     'https://code.jquery.com/jquery.min.js',
     'https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js',
     'https://cdn.jsdelivr.net/npm/pouchdb/dist/pouchdb.min.js',
@@ -80,7 +80,7 @@ self.addEventListener('activate', function (event) {
 self.addEventListener('fetch', function (event) {
   // Ignore POST etc, which will happen when using PouchDB
   // in the browser console
-  if(event.request.method === "GET") {
+  if (event.request.method === "GET") {
     // Ignore requests from browser extensions etc
     if ((event.request.url.indexOf('http') === 0)) {
       // Try the cache, if it's not in there try the network, then cache that response
@@ -92,7 +92,7 @@ self.addEventListener('fetch', function (event) {
               cache.put(event.request, response.clone());
               return response;
             }).catch(function () {
-              return cache.match('/offline.html');
+              return cache.match('{{ site.baseurl }}/offline.html');
             });
           });
       })
