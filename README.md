@@ -1,10 +1,12 @@
-# [PouchDB](https://pouchdb.com/) – The Database that Syncs!
+# [Apache PouchDB](https://pouchdb.apache.org/) – The Database that Syncs!
 
 [![Build Status](https://github.com/pouchdb/pouchdb/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/pouchdb/pouchdb/actions/workflows/ci.yml?query=branch%3Amaster) [![npm version](https://img.shields.io/npm/v/pouchdb.svg)](https://www.npmjs.com/package/pouchdb) [![jsDelivr Hits](https://data.jsdelivr.com/v1/package/npm/pouchdb/badge?style=rounded)](https://www.jsdelivr.com/package/npm/pouchdb)
 
-PouchDB is an open-source JavaScript database inspired by [Apache CouchDB](http://couchdb.apache.org/) that is designed to run well within the browser.
+Apache PouchDB is an open-source JavaScript database inspired by [Apache CouchDB](http://couchdb.apache.org/) that is designed to run well within the browser.
 
 PouchDB was created to help web developers build applications that work as well offline as they do online.
+
+Apache PouchDB is currently undergoing Incubation at the Apache Software Foundation. Read the [ASF Disclaimer](DISCLAIMER) for incubator projects.
 
 ## Using PouchDB
 
