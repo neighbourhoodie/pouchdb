@@ -4,6 +4,8 @@ title: Download
 sidebar: nav.html
 ---
 
+Apache PouchDB™ is an open-source JavaScript database inspired by <a href="http://couchdb.apache.org/">Apache CouchDB</a> that is designed to run well within the browser.
+
 {% include anchor.html class="h3" title="Quick Start" hash="file" %}
 
 {% highlight html %}
