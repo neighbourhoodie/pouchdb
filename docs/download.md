@@ -8,12 +8,12 @@ Apache PouchDB™ is an open-source JavaScript database inspired by <a href="htt
 
 {% include anchor.html class="h3" title="Quick Start" hash="file" %}
 
-{% highlight html %}
+```html
 <script src="https://cdn.jsdelivr.net/npm/pouchdb@{{site.version}}/dist/pouchdb.min.js"></script>
 <script>
   const db = new PouchDB('my_database');
 </script>
-{% endhighlight %}
+```
 
 PouchDB can also be directly downloaded:
 
