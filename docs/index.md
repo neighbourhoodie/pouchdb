@@ -1,15 +1,16 @@
 ---
 layout: default.html
-title: PouchDB, the JavaScript Database that Syncs!
+title: Apache PouchDB™, the JavaScript Database that Syncs!
 ---
 <div class="band band-inverse">
   <div class="container">
     <div class="row">
       <div class='col-sm-6'>
         <h1>The Database that Syncs!</h1>
-        <p>PouchDB is an open-source JavaScript database inspired by <a href="http://couchdb.apache.org/">Apache CouchDB</a> that is designed to run well within the browser.</p>
+        <p>Apache PouchDB™ is an open-source JavaScript database inspired by <a href="http://couchdb.apache.org/">Apache CouchDB</a> that is designed to run well within the browser.</p>
         <p>PouchDB was created to help web developers build applications that work as well offline as they do online.<br>
         <p>It enables applications to store data locally while offline, then synchronize it with CouchDB and compatible servers when the application is back online, keeping the user's data in sync no matter where they next login.</p>
+        <p>Apache PouchDB is currently undergoing Incubation at the Apache Software Foundation.</p>
         <a href="{{ site.baseurl }}/learn.html" class="btn btn-primary btn-lg btn-block-xs">Learn more</a>
       </div>
       <div class='col-sm-6'>
@@ -52,7 +53,7 @@ db.replicate.to('https://example.com/mydb');
           alt=""
         />
         <h3>Lightweight</h3>
-        <p class="margin-bottom-none-md">PouchDB is just a script tag and 46KB (gzipped) away in the browser, or <code>$ npm install pouchdb</code> away
+        <p class="margin-bottom-none-md">Apache PouchDB is just a script tag and 46KB (gzipped) away in the browser, or <code>$ npm install pouchdb</code> away
         in Node.</p>
       </div>
       <div class='text-center col-sm-6 col-md-3'>
