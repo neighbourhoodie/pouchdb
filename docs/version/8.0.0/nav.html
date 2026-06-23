@@ -1,10 +1,11 @@
 {% if version %}
   {% assign currentVersion = "/version/" | append: version %}
-{% else %}
+  {% assign aboutText = "About PouchDB " | append: version %}
+  {% else %}
   {% assign currentVersion = "" %}
+  {% assign aboutText = "About PouchDB" %}
 {% endif %}
-currentVersion: {{currentVersion}}
-{% include nav_item.html versionPrefix=currentVersion path="/learn.html" text="About 8.0.0" %}
+{% include nav_item.html versionPrefix=currentVersion path="/learn.html" text=aboutText %}
 {% include nav_item.html versionPrefix=currentVersion path="/download.html" text="Download" %}
 {% include nav_item.html versionPrefix=currentVersion path="/users.html" text="Who's using PouchDB?" %}
 {% include nav_item.html versionPrefix=currentVersion path="/getting-started.html" text="Get Started Guide" %}
